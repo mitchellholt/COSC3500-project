@@ -20,7 +20,7 @@ int *primitive_root_powers(int n, int omega, int p);
  * The result is stored in coefficients; no new memory is allocated. A pointer
  * to the coefficient array is also returned.
  */
-int *fft1(int *coefficients, int n, const int *w, int p);
+int *fft1(int *const coefficients, int n, const int *const w, int p);
 
 
 /* In-place FFT Algorithm 2 (Gerhard and von zur Gathen section 8.2)
@@ -34,4 +34,4 @@ int *fft1(int *coefficients, int n, const int *w, int p);
  * The result is stored in coefficients; no new memory is allocated. A pointer
  * to the coefficient array is also returned.
  */
-int *fft2(int *coefficients, int n, const int *w, int p);
+int *fft2(int *const coefficients, int n, const int *const w, int p);

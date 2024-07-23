@@ -58,7 +58,6 @@ int primitive_root(int n, int p) {
     int candidate = 0; // candidate (p - 1)th root of unity
     while (!candidate) { // expected to run through this loop 3 times
         candidate = (rand() % (p - 2)) + 2;
-        int gen_check;
         for (int i = 0; i < num_prime_divisors; i++) {
             if (prime_divisors[i] && powmod(candidate, (p - 1)/prime_divisors[i], p) == 1) {
                 candidate = 0;

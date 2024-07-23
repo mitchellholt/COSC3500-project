@@ -15,3 +15,6 @@ fft.o: fft.c fft.h
 
 fin_field.o: fin_field.c fin_field.h
 	$(CC) $(CFLAGS) -c $<
+
+clean:
+	rm -f *.o $(TEST)
