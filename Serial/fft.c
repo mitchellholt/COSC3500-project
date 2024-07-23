@@ -36,11 +36,33 @@ int *primitive_root_powers(int n, int omega, int p) {
 }
 
 
-int *fft1(int *const coefficients, int n, const int *const w, int p) {
-    return NULL;
+void fft1(int *const coefficients, int n, const int *const w, int p) {
+    if (n == 1) return;
+    const int n2 = n/2;
+    fft1(coefficients, n2, w + n2, p);
+    fft1(coefficients + n2, n2, w + n2, p);
+    int s,t;
+    for (int i = 0; i < n2; i++) {
+        s = coefficients[i];
+        t = mulmod(w[i], coefficients[n2 + i], p);
+        coefficients[i] = addmod(s, t, p);
+        coefficients[n2 + i] = submod(s, t, p);
+    }
+    return;
 }
 
 
-int *fft2(int *const coefficients, int n, const int *const w, int p) {
-    return NULL;
+void fft2(int *const coefficients, int n, const int *const w, int p) {
+    if (n == 1) return;
+    const int n2 = n/2;
+    int s,t;
+    for (int i = 0; i < n2; i++) {
+        s = addmod(coefficients[i], coefficients[n2 + i], p);
+        t = submod(coefficients[i], coefficients[n2 + i], p);
+        coefficients[i] = s;
+        coefficients[n2 + i] = mulmod(t, w[i], p);
+    }
+    fft2(coefficients, n2, w + n2, p);
+    fft2(coefficients + n2, n2, w + n2, p);
+    return;
 }

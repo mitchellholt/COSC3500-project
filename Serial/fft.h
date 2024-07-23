@@ -17,10 +17,9 @@ int *primitive_root_powers(int n, int omega, int p);
  *  - w is a precomputed array of powers of some primitive n-th root of unity
  *    (computed by primitive_root_powers) in Z/p.
  *
- * The result is stored in coefficients; no new memory is allocated. A pointer
- * to the coefficient array is also returned.
+ * The result is stored in coefficients; no new memory is allocated.
  */
-int *fft1(int *const coefficients, int n, const int *const w, int p);
+void fft1(int *const coefficients, int n, const int *const w, int p);
 
 
 /* In-place FFT Algorithm 2 (Gerhard and von zur Gathen section 8.2)
@@ -31,7 +30,6 @@ int *fft1(int *const coefficients, int n, const int *const w, int p);
  *  - w is a precomputed array of powers of some primitive n-th root of unity
  *    (computed by primitive_root_powers) in Z/p.
  *
- * The result is stored in coefficients; no new memory is allocated. A pointer
- * to the coefficient array is also returned.
+ * The result is stored in coefficients; no new memory is allocated.
  */
-int *fft2(int *const coefficients, int n, const int *const w, int p);
+void fft2(int *const coefficients, int n, const int *const w, int p);
