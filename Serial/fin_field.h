@@ -7,6 +7,8 @@ int addmod(int a, int b, int p);
 // Compute a - b mod p
 int submod(int a, int b, int p);
 
+// compute a^n mod p
+int powmod(int a, int n, int p);
 
 // Return a primitive nth root of unity in Z/p if one exists. If not, return 0
 int primitive_root(int n, int p);

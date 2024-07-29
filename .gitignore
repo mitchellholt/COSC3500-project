@@ -1,5 +1,3 @@
-Serial/test.c
 Serial/test
-Serial/fft.o
-Serial/fin_field.o
-Serial/test.o
+Serial/notes.txt
+*.o

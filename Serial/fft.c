@@ -4,8 +4,8 @@
 #include <stdlib.h>
 
 
-// EPIC implementation that uses n/2 field multiplications and O(n) array
-// operations. TODO - can we make this n accesses?
+// Note that this is fast IF we can fit all of w into cache.
+// What happens otherwise?
 int *primitive_root_powers(int n, int omega, int p) {
     int *w = malloc(sizeof(int) * n); // no need for null-termination
 
@@ -19,7 +19,7 @@ int *primitive_root_powers(int n, int omega, int p) {
     }
 
     // fill in the rest of the values, using those already in the start of the array
-    // TODO can we force w to stay in L1?
+    // TODO: use epic cache stuff to try to keep the parts of w we need in cache
     uint16_t len = k; len >>= 1; // number of values to write in the current iteration
     uint16_t shift = 1; // we write the (multiple)th powers of omega in the current iteration
     // From here, k is the start index of the current block

@@ -4,28 +4,27 @@
 #define LONG long long int // no need to expose this
 
 
-
-int mulmod(int a, int b, int p) {
+inline int mulmod(int a, int b, int p) {
     int t = (LONG) a * b % p;
     return t;
 }
 
 
-int addmod(int a, int b, int p) {
+inline int addmod(int a, int b, int p) {
     int t = a - p + b;
     t += (t >> 31) & p;
     return t;
 }
 
 
-int submod(int a, int b, int p) {
+inline int submod(int a, int b, int p) {
     int t = a - b;
     t += (t >> 31) & p;
     return t;
 }
 
 
-int powmod(int a, int n, int p) {
+inline int powmod(int a, int n, int p) {
     int t = 1;
     for (; n > 0; n--) t = mulmod(t, a, p);
     return t;
@@ -68,4 +67,9 @@ int primitive_root(int n, int p) {
 
     free(prime_divisors);
     return powmod(candidate, (p - 1)/n, p);
+}
+
+// PERF: maybe this would be faster using XGCD?
+inline int invmod(int n, int p) {
+    return powmod(n, p - 2, p);
 }
