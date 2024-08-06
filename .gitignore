@@ -1,3 +1,7 @@
 Serial/test
 Serial/notes.txt
 *.o
+Serial/out
+Serial/primes.mpl
+Serial/run
+Serial/small_examples

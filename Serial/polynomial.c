@@ -7,9 +7,7 @@
 
 
 // PERF: can we somehow cache w(omega) and w(omega^{-1})?
-bool fast_multiply(int *const a, int *const b, int n, int p) {
-    int omega = primitive_root(n, p);
-    if (!omega) return false;
+void fast_multiply(int *const a, int *const b, int omega, int n, int p) {
     int *w = primitive_root_powers(n, omega, p);
     fft2(a, n, w, p);
     fft2(b, n, w, p);
@@ -28,5 +26,11 @@ bool fast_multiply(int *const a, int *const b, int n, int p) {
     fft1(a, n, w, p);
 
     free(w);
-    return true;
+}
+
+
+void rand_poly(int *buffer, int degree, int p) {
+    for (int i = 0; i < degree; i++) {
+        buffer[i] = rand_elt(p);
+    }
 }
