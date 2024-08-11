@@ -66,8 +66,8 @@ int main(int argc, char **argv) {
         int n2 = n/2;
         rand_poly(a_buf.data, n2, FERMAT_PRIME);
         rand_poly(b_buf.data, n2, FERMAT_PRIME);
-        memset(a_buf.data + n2, 0, n2);
-        memset(b_buf.data + n2, 0, n2);
+        memset(a_buf.data + n2, 0, n2 * sizeof(int));
+        memset(b_buf.data + n2, 0, n2 * sizeof(int));
 
         print_int_array(out, a_buf.data, n2);
         fprintf(out, "\n");

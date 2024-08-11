@@ -8,8 +8,8 @@ RUN = run
 run: run.o polynomial.o io.o fin_field.o fft.o
 	$(CC) $(CFLAGS) run.o polynomial.o io.o fin_field.o fft.o -o $@
 
-test: test.o fft.o fin_field.o io.o polynomial.o
-	$(CC) $(CFLAGS) test.o fft.o fin_field.o io.o polynomial.o -o $@
+test: test.o polynomial.o io.o fin_field.o fft.o
+	$(CC) $(CFLAGS) test.o polynomial.o io.o fin_field.o fft.o -o $@
 
 fft.o: fft.c fft.h
 	$(CC) $(CFLAGS) -c $<
