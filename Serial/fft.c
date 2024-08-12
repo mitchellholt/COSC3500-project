@@ -1,20 +1,18 @@
+#include <stdint.h>
+#include <mm_malloc.h>
 #include "fft.h"
 #include "fin_field.h"
-#include <stdint.h>
-#include <stdlib.h>
 
 
 // Note that this is fast IF we can fit all of w into cache.
 // What happens otherwise?
-int *primitive_root_powers(int n, int omega, int p) {
-    int *w = malloc(sizeof(int) * n); // no need for null-termination
-
+void primitive_root_powers(int *buffer, int n, int omega, int p) {
     // fill in first half of the array (multiplications should ONLY be done here)
     int k = n/2; // number of values to write here
     int om = omega;
-    w[0] = 1;
+    buffer[0] = 1;
     for (int i = 1; i < k; i++) {
-        w[i] = om;
+        buffer[i] = om;
         om = mulmod(om, omega, p);
     }
 
@@ -25,14 +23,12 @@ int *primitive_root_powers(int n, int omega, int p) {
     // From here, k is the start index of the current block
     while (len) {
         for (uint16_t i = 0; i < len; i++) {
-            w[k + i] = w[i << shift];
+            buffer[k + i] = buffer[i << shift];
         }
         k += len;
         len >>= 1;
         shift++;
     }
-
-    return w;
 }
 
 

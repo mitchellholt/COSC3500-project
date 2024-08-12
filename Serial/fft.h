@@ -1,12 +1,14 @@
 /* Compute an array of length n of powers of omega modulo p. We require that
- * omega is a primitive nth root of unity.
+ * omega is a primitive nth root of unity. Store them in the buffer that is
+ * passed to this function. The caller must ensure that the buffer is large
+ * enough
  *
  * The format of this array is identical
  * to that in Michael Monagan's implementnation
  * (https://www.cecm.sfu.ca/~mmonagan/teaching/TopicsinCA21/FFTnoperm.pdf),
  * with the exception that the final element of the array is left uninitialised
  */
-int *primitive_root_powers(int n, int omega, int p);
+void primitive_root_powers(int *buffer, int n, int omega, int p);
 
 
 /* In-place FFT Algorithm 1 (Geddes, Czapor, Labahn section 4.7)

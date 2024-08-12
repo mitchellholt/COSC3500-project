@@ -1,3 +1,4 @@
+#include <mm_malloc.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -5,10 +6,13 @@
 #include "fft.h"
 #include "fin_field.h"
 
+#define ALIGN 64
+
 
 // PERF: can we somehow cache w(omega) and w(omega^{-1})?
 void fast_multiply(int *const a, int *const b, int omega, int n, int p) {
-    int *w = primitive_root_powers(n, omega, p);
+    int *w = _mm_malloc(sizeof(int) * n, ALIGN);
+    primitive_root_powers(w, n, omega, p);
     fft2(a, n, w, p);
     fft2(b, n, w, p);
 
@@ -22,7 +26,8 @@ void fast_multiply(int *const a, int *const b, int omega, int n, int p) {
     }
 
     omega = invmod(omega, p);
-    w = primitive_root_powers(n, omega, p);
+    // PERF: surely there is an efficient way to do this WITHOUT needing to create a new array?
+    primitive_root_powers(w, n, omega, p);
     fft1(a, n, w, p);
 
     free(w);
