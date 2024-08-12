@@ -24,11 +24,6 @@
 #define MAX_POWER_2  16
 
 
-static inline uint32_t pow2(uint32_t k) {
-    return 1 << k;
-}
-
-
 int main(int argc, char **argv) {
     int num_mults;
 
@@ -57,7 +52,7 @@ int main(int argc, char **argv) {
             fclose(out);
             return BAD_ARGS_ERR;
         }
-        sizes[i] = (int)pow2((uint32_t)sizes[i]);
+        sizes[i] = (int)(1 << (uint32_t)sizes[i]);
         if (sizes[i] > biggest) biggest = sizes[i];
     }
 
@@ -83,8 +78,6 @@ int main(int argc, char **argv) {
                 n);
             return FRICK;
         }
-        fprintf(out, "%d\n%d\n", n, num_mults); // used for verification
-
         for (int j = 0; j < num_mults; j++) {
             // create random polys and print to file
             rand_poly(a_buf, n2, FERMAT_PRIME);
