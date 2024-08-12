@@ -1,11 +1,17 @@
 CC = gcc
-CFLAGS = -Wall -Werror -std=gnu99 -pedantic
 CPPC = g++
+CFLAGS = -Wall -Werror -std=gnu99 -pedantic
 CPPFLAGS = -Wall -Werror -pedantic -std=c++11
 TEST = test
 RUN = run
-.PHONY: clean test run
+.PHONY: clean test run prof
 .DEFAULT_GOAL := run
+
+all: run
+
+prof: CFLAGS += -g -pg
+prof: CPPFLAGS += -g -pg
+prof: run
 
 run: run.o polynomial.o io.o fin_field.o fft.o
 	$(CPPC) $(CPPFLAGS) run.o polynomial.o io.o fin_field.o fft.o -o $@
