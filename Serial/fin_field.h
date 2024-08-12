@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+    extern "C" {
+#endif
+
 // Compute a*b mod p
 int mulmod(int a, int b, int p);
 
@@ -22,3 +26,7 @@ int fermat_primitive_root(int n, int p);
 
 // Find the (multiplicative) inverse of n in Z/p
 int invmod(int n, int p);
+
+#ifdef __cplusplus
+    }
+#endif

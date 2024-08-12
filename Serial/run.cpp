@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <chrono>
 #include "polynomial.h"
 #include "io.h"
 #include "fin_field.h"
@@ -40,7 +41,7 @@ int main(int argc, char **argv) {
 
     // Read input powers and check they are correct sizes
     int num_sizes = argc - POWERS_START_INDEX;
-    int *sizes = _mm_malloc(sizeof(int) * num_sizes, ALIGN);
+    int *sizes = (int*)_mm_malloc(sizeof(int) * num_sizes, ALIGN);
     int biggest = 0;
     for (int i = 0; i < num_sizes; i++) {
         if (sscanf(argv[POWERS_START_INDEX + i], "%d", sizes + i) != 1
@@ -57,8 +58,8 @@ int main(int argc, char **argv) {
     }
 
     // Allocate buffers
-    int *a_buf = _mm_malloc(biggest * sizeof(int), ALIGN);
-    int *b_buf = _mm_malloc(biggest * sizeof(int), ALIGN);
+    int *a_buf = (int*)_mm_malloc(biggest * sizeof(int), ALIGN);
+    int *b_buf = (int*)_mm_malloc(biggest * sizeof(int), ALIGN);
 
     srand(time(NULL));
 
@@ -78,6 +79,10 @@ int main(int argc, char **argv) {
                 n);
             return FRICK;
         }
+
+        // record the total number of microseconds spent in 
+        long totalTime = 0;
+
         for (int j = 0; j < num_mults; j++) {
             // create random polys and print to file
             rand_poly(a_buf, n2, FERMAT_PRIME);
@@ -91,10 +96,17 @@ int main(int argc, char **argv) {
             fprintf(out, "\n");
 
             // multiply them and print result
+            const auto startTime = std::chrono::high_resolution_clock::now();
             fast_multiply(a_buf, b_buf, omega, n, FERMAT_PRIME);
+            const auto endTime = std::chrono::high_resolution_clock::now();
+            totalTime += std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count();
+
             print_int_array(out, a_buf, n);
             fprintf(out, "\n");
         }
+
+        printf("%d multiplications of size %d. Total time %ld us\n",
+                num_mults, n, totalTime);
     }
 
     fclose(out);

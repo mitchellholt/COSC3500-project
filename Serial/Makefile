@@ -1,12 +1,14 @@
 CC = gcc
 CFLAGS = -Wall -Werror -std=gnu99 -pedantic
+CPPC = g++
+CPPFLAGS = -Wall -Werror -pedantic -std=c++11
 TEST = test
 RUN = run
 .PHONY: clean test run
 .DEFAULT_GOAL := run
 
 run: run.o polynomial.o io.o fin_field.o fft.o
-	$(CC) $(CFLAGS) run.o polynomial.o io.o fin_field.o fft.o -o $@
+	$(CPPC) $(CPPFLAGS) run.o polynomial.o io.o fin_field.o fft.o -o $@
 
 test: test.o polynomial.o io.o fin_field.o fft.o
 	$(CC) $(CFLAGS) test.o polynomial.o io.o fin_field.o fft.o -o $@
@@ -20,8 +22,8 @@ fin_field.o: fin_field.c fin_field.h
 polynomial.o: polynomial.c polynomial.h
 	$(CC) $(CFLAGS) -c $<
 
-run.o: run.c
-	$(CC) $(CFLAGS) -c $<
+run.o: run.cpp
+	$(CPPC) $(CPPFLAGS) -c $<
 
 test.o: test.c
 	$(CC) $(CFLAGS) -c $<

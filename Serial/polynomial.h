@@ -1,3 +1,6 @@
+#ifdef __cplusplus
+    extern "C" {
+#endif
 /*
  * Multiply a, b in (Z/p)[x]
  * We require that:
@@ -19,3 +22,7 @@ void fast_multiply(int *const a, int *const b, int omega, int n, int p);
  * The caller must ensure that buffer is large enough to hold degree ints.
  */
 void rand_poly(int *buffer, int degree, int p);
+
+#ifdef __cplusplus
+    }
+#endif

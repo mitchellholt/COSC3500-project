@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+    extern "C" {
+#endif
+
 /* Compute an array of length n of powers of omega modulo p. We require that
  * omega is a primitive nth root of unity. Store them in the buffer that is
  * passed to this function. The caller must ensure that the buffer is large
@@ -35,3 +39,7 @@ void fft1(int *const coefficients, int n, const int *const w, int p);
  * The result is stored in coefficients; no new memory is allocated.
  */
 void fft2(int *const coefficients, int n, const int *const w, int p);
+
+#ifdef __cplusplus
+    }
+#endif
