@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=polynomial
-#SBATCH --partition=cosc3500
+#SBATCH --partition=a100
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --ntasks-per-node=1

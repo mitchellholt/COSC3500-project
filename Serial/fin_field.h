@@ -2,9 +2,6 @@
     extern "C" {
 #endif
 
-
-// The ONLY prime we will be using, 2^(16) + 1
-#define FERMAT_PRIME 65537
 #define PRIME_LOG_2  16
 
 
