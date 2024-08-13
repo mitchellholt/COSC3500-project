@@ -6,14 +6,14 @@
 
 // Note that this is fast IF we can fit all of w into cache.
 // What happens otherwise?
-void primitive_root_powers(int *buffer, int n, int omega, int p) {
+void primitive_root_powers(int *buffer, int n, int omega) {
     // fill in first half of the array (multiplications should ONLY be done here)
     int k = n/2; // number of values to write here
     int om = omega;
     buffer[0] = 1;
     for (int i = 1; i < k; i++) {
         buffer[i] = om;
-        om = mulmod(om, omega, p);
+        om = mulmod(om, omega);
     }
 
     // fill in the rest of the values, using those already in the start of the array
@@ -32,33 +32,33 @@ void primitive_root_powers(int *buffer, int n, int omega, int p) {
 }
 
 
-void fft1(int *const coefficients, int n, const int *const w, int p) {
+void fft1(int *const coefficients, int n, const int *const w) {
     if (n == 1) return;
     const int n2 = n/2;
-    fft1(coefficients, n2, w + n2, p);
-    fft1(coefficients + n2, n2, w + n2, p);
+    fft1(coefficients, n2, w + n2);
+    fft1(coefficients + n2, n2, w + n2);
     int s,t;
     for (int i = 0; i < n2; i++) {
         s = coefficients[i];
-        t = mulmod(w[i], coefficients[n2 + i], p);
-        coefficients[i] = addmod(s, t, p);
-        coefficients[n2 + i] = submod(s, t, p);
+        t = mulmod(w[i], coefficients[n2 + i]);
+        coefficients[i] = addmod(s, t);
+        coefficients[n2 + i] = submod(s, t);
     }
     return;
 }
 
 
-void fft2(int *const coefficients, int n, const int *const w, int p) {
+void fft2(int *const coefficients, int n, const int *const w) {
     if (n == 1) return;
     const int n2 = n/2;
     int s,t;
     for (int i = 0; i < n2; i++) {
-        s = addmod(coefficients[i], coefficients[n2 + i], p);
-        t = submod(coefficients[i], coefficients[n2 + i], p);
+        s = addmod(coefficients[i], coefficients[n2 + i]);
+        t = submod(coefficients[i], coefficients[n2 + i]);
         coefficients[i] = s;
-        coefficients[n2 + i] = mulmod(t, w[i], p);
+        coefficients[n2 + i] = mulmod(t, w[i]);
     }
-    fft2(coefficients, n2, w + n2, p);
-    fft2(coefficients + n2, n2, w + n2, p);
+    fft2(coefficients, n2, w + n2);
+    fft2(coefficients + n2, n2, w + n2);
     return;
 }

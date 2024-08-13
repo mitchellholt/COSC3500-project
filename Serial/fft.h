@@ -12,7 +12,7 @@
  * (https://www.cecm.sfu.ca/~mmonagan/teaching/TopicsinCA21/FFTnoperm.pdf),
  * with the exception that the final element of the array is left uninitialised
  */
-void primitive_root_powers(int *buffer, int n, int omega, int p);
+void primitive_root_powers(int *buffer, int n, int omega);
 
 
 /* In-place FFT Algorithm 1 (Geddes, Czapor, Labahn section 4.7)
@@ -25,7 +25,7 @@ void primitive_root_powers(int *buffer, int n, int omega, int p);
  *
  * The result is stored in coefficients; no new memory is allocated.
  */
-void fft1(int *const coefficients, int n, const int *const w, int p);
+void fft1(int *const coefficients, int n, const int *const w);
 
 
 /* In-place FFT Algorithm 2 (Gerhard and von zur Gathen section 8.2)
@@ -38,7 +38,7 @@ void fft1(int *const coefficients, int n, const int *const w, int p);
  *
  * The result is stored in coefficients; no new memory is allocated.
  */
-void fft2(int *const coefficients, int n, const int *const w, int p);
+void fft2(int *const coefficients, int n, const int *const w);
 
 #ifdef __cplusplus
     }
