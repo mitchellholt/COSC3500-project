@@ -3,30 +3,30 @@ Flat profile:
 Each sample counts as 0.01 seconds.
   %   cumulative   self              self     total           
  time   seconds   seconds    calls  ms/call  ms/call  name    
- 41.45     11.08    11.08 2642039093     0.00     0.00  mulmod
- 17.94     15.88     4.80 1990656000     0.00     0.00  addmod
- 16.55     20.31     4.43     6000     0.74     2.42  fft2
-  7.57     22.33     2.03 1990656000     0.00     0.00  submod
-  6.86     24.17     1.83     3000     0.61     2.30  fft1
-  3.22     25.03     0.86     9000     0.10     0.10  print_int_array
-  2.74     25.76     0.73     6007     0.12     0.40  powmod
-  1.72     26.22     0.46     6000     0.08     0.14  primitive_root_powers
-  1.54     26.64     0.41 86016000     0.00     0.00  rand_elt
-  0.30     26.72     0.08     3000     0.03     8.48  fast_multiply
-  0.22     26.78     0.06     6000     0.01     0.08  rand_poly
-  0.00     26.78     0.00     9000     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const
-  0.00     26.78     0.00     6000     0.00     0.00  std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::time_since_epoch() const
-  0.00     26.78     0.00     6000     0.00     0.40  invmod
-  0.00     26.78     0.00     3000     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000l> >::count() const
-  0.00     26.78     0.00     3000     0.00     0.00  std::enable_if<std::chrono::__is_duration<std::chrono::duration<long, std::ratio<1l, 1000000l> > >::value, std::chrono::duration<long, std::ratio<1l, 1000000l> > >::type std::chrono::duration_cast<std::chrono::duration<long, std::ratio<1l, 1000000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)
-  0.00     26.78     0.00     3000     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000l> > std::chrono::__duration_cast_impl<std::chrono::duration<long, std::ratio<1l, 1000000l> >, std::ratio<1l, 1000l>, long, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)
-  0.00     26.78     0.00     3000     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000000l> >::duration<long, void>(long const&)
-  0.00     26.78     0.00     3000     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000l> >::duration<long, void>(long const&)
-  0.00     26.78     0.00     3000     0.00     0.00  std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&)
-  0.00     26.78     0.00     3000     0.00     0.00  std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)
-  0.00     26.78     0.00     3000     0.00     0.00  _mm_malloc
-  0.00     26.78     0.00        3     0.00     0.00  _mm_malloc(unsigned long, unsigned long)
-  0.00     26.78     0.00        3     0.00     0.93  fermat_primitive_root
+ 43.95     19.55    19.55 4244812575     0.00     0.00  mulmod
+ 15.73     26.55     7.00    14000     0.50     1.64  fft2
+ 15.02     33.23     6.68 2936832000     0.00     0.00  addmod
+  8.45     36.99     3.76 2936832000     0.00     0.00  submod
+  6.63     39.94     2.95     7000     0.42     1.56  fft1
+  3.92     41.69     1.74    14018     0.12     0.43  powmod
+  3.30     43.15     1.47    21000     0.07     0.07  print_int_array
+  1.58     43.86     0.70    14000     0.05     0.09  primitive_root_powers
+  0.95     44.28     0.42 130048000     0.00     0.00  rand_elt
+  0.41     44.46     0.18     7000     0.03     6.08  fast_multiply
+  0.18     44.54     0.08    14000     0.01     0.04  rand_poly
+  0.00     44.54     0.00    21000     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const
+  0.00     44.54     0.00    14000     0.00     0.00  std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::time_since_epoch() const
+  0.00     44.54     0.00    14000     0.00     0.43  invmod
+  0.00     44.54     0.00     7000     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000l> >::count() const
+  0.00     44.54     0.00     7000     0.00     0.00  std::enable_if<std::chrono::__is_duration<std::chrono::duration<long, std::ratio<1l, 1000000l> > >::value, std::chrono::duration<long, std::ratio<1l, 1000000l> > >::type std::chrono::duration_cast<std::chrono::duration<long, std::ratio<1l, 1000000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)
+  0.00     44.54     0.00     7000     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000l> > std::chrono::__duration_cast_impl<std::chrono::duration<long, std::ratio<1l, 1000000l> >, std::ratio<1l, 1000l>, long, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)
+  0.00     44.54     0.00     7000     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000000l> >::duration<long, void>(long const&)
+  0.00     44.54     0.00     7000     0.00     0.00  std::chrono::duration<long, std::ratio<1l, 1000000l> >::duration<long, void>(long const&)
+  0.00     44.54     0.00     7000     0.00     0.00  std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&)
+  0.00     44.54     0.00     7000     0.00     0.00  std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)
+  0.00     44.54     0.00     7000     0.00     0.00  _mm_malloc
+  0.00     44.54     0.00        7     0.00     1.10  fermat_primitive_root
+  0.00     44.54     0.00        3     0.00     0.00  _mm_malloc(unsigned long, unsigned long)
 
  %         the percentage of the total running time of the
 time       program used by this function.
@@ -64,124 +64,124 @@ notice and this notice are preserved.
 		     Call graph (explanation follows)
 
 
-granularity: each sample hit covers 2 byte(s) for 0.04% of 26.78 seconds
+granularity: each sample hit covers 2 byte(s) for 0.02% of 44.54 seconds
 
 index % time    self  children    called     name
                                                  <spontaneous>
-[1]    100.0    0.00   26.78                 main [1]
-                0.08   25.36    3000/3000        fast_multiply [2]
-                0.86    0.00    9000/9000        print_int_array [10]
-                0.06    0.41    6000/6000        rand_poly [12]
-                0.00    0.00       3/3           fermat_primitive_root [14]
-                0.00    0.00    3000/3000        std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [28]
-                0.00    0.00    3000/3000        std::enable_if<std::chrono::__is_duration<std::chrono::duration<long, std::ratio<1l, 1000000l> > >::value, std::chrono::duration<long, std::ratio<1l, 1000000l> > >::type std::chrono::duration_cast<std::chrono::duration<long, std::ratio<1l, 1000000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [24]
-                0.00    0.00    3000/3000        std::chrono::duration<long, std::ratio<1l, 1000000l> >::count() const [23]
+[1]    100.0    0.00   44.54                 main [1]
+                0.18   42.38    7000/7000        fast_multiply [2]
+                1.47    0.00   21000/21000       print_int_array [10]
+                0.08    0.42   14000/14000       rand_poly [12]
+                0.00    0.01       7/7           fermat_primitive_root [14]
+                0.00    0.00    7000/7000        std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [28]
+                0.00    0.00    7000/7000        std::enable_if<std::chrono::__is_duration<std::chrono::duration<long, std::ratio<1l, 1000000l> > >::value, std::chrono::duration<long, std::ratio<1l, 1000000l> > >::type std::chrono::duration_cast<std::chrono::duration<long, std::ratio<1l, 1000000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [24]
+                0.00    0.00    7000/7000        std::chrono::duration<long, std::ratio<1l, 1000000l> >::count() const [23]
                 0.00    0.00       3/3           _mm_malloc(unsigned long, unsigned long) [31]
 -----------------------------------------------
-                0.08   25.36    3000/3000        main [1]
-[2]     95.0    0.08   25.36    3000         fast_multiply [2]
-                4.43   10.12    6000/6000        fft2 [3]
-                1.83    5.06    3000/3000        fft1 [5]
-                0.00    2.38    6000/6000        invmod [8]
-                0.46    0.36    6000/6000        primitive_root_powers [11]
-                0.72    0.00 172032000/2642039093     mulmod [4]
-                0.00    0.00    3000/3000        _mm_malloc [30]
+                0.18   42.38    7000/7000        main [1]
+[2]     95.6    0.18   42.38    7000         fast_multiply [2]
+                7.00   15.98   14000/14000       fft2 [3]
+                2.95    7.99    7000/7000        fft1 [5]
+                0.00    5.96   14000/14000       invmod [8]
+                0.70    0.60   14000/14000       primitive_root_powers [11]
+                1.20    0.00 260096000/4244812575     mulmod [4]
+                0.00    0.00    7000/7000        _mm_malloc [30]
 -----------------------------------------------
-                             344052000             fft2 [3]
-                4.43   10.12    6000/6000        fast_multiply [2]
-[3]     54.3    4.43   10.12    6000+344052000 fft2 [3]
-                5.57    0.00 1327104000/2642039093     mulmod [4]
-                3.20    0.00 1327104000/1990656000     addmod [6]
-                1.35    0.00 1327104000/1990656000     submod [9]
-                             344052000             fft2 [3]
+                             520164000             fft2 [3]
+                7.00   15.98   14000/14000       fast_multiply [2]
+[3]     51.6    7.00   15.98   14000+520164000 fft2 [3]
+                9.02    0.00 1957888000/4244812575     mulmod [4]
+                4.46    0.00 1957888000/2936832000     addmod [6]
+                2.51    0.00 1957888000/2936832000     submod [9]
+                             520164000             fft2 [3]
 -----------------------------------------------
-                0.36    0.00 86010000/2642039093     primitive_root_powers [11]
-                0.72    0.00 172032000/2642039093     fast_multiply [2]
-                1.65    0.00 393341093/2642039093     powmod [7]
-                2.78    0.00 663552000/2642039093     fft1 [5]
-                5.57    0.00 1327104000/2642039093     fft2 [3]
-[4]     41.4   11.08    0.00 2642039093         mulmod [4]
+                0.60    0.00 130034000/4244812575     primitive_root_powers [11]
+                1.20    0.00 260096000/4244812575     fast_multiply [2]
+                4.23    0.00 917850575/4244812575     powmod [7]
+                4.51    0.00 978944000/4244812575     fft1 [5]
+                9.02    0.00 1957888000/4244812575     fft2 [3]
+[4]     43.9   19.55    0.00 4244812575         mulmod [4]
 -----------------------------------------------
-                             172026000             fft1 [5]
-                1.83    5.06    3000/3000        fast_multiply [2]
-[5]     25.7    1.83    5.06    3000+172026000 fft1 [5]
-                2.78    0.00 663552000/2642039093     mulmod [4]
-                1.60    0.00 663552000/1990656000     addmod [6]
-                0.68    0.00 663552000/1990656000     submod [9]
-                             172026000             fft1 [5]
+                             260082000             fft1 [5]
+                2.95    7.99    7000/7000        fast_multiply [2]
+[5]     24.6    2.95    7.99    7000+260082000 fft1 [5]
+                4.51    0.00 978944000/4244812575     mulmod [4]
+                2.23    0.00 978944000/2936832000     addmod [6]
+                1.25    0.00 978944000/2936832000     submod [9]
+                             260082000             fft1 [5]
 -----------------------------------------------
-                1.60    0.00 663552000/1990656000     fft1 [5]
-                3.20    0.00 1327104000/1990656000     fft2 [3]
-[6]     17.9    4.80    0.00 1990656000         addmod [6]
+                2.23    0.00 978944000/2936832000     fft1 [5]
+                4.46    0.00 1957888000/2936832000     fft2 [3]
+[6]     15.0    6.68    0.00 2936832000         addmod [6]
 -----------------------------------------------
-                0.00    0.00       7/6007        fermat_primitive_root [14]
-                0.73    1.65    6000/6007        invmod [8]
-[7]      8.9    0.73    1.65    6007         powmod [7]
-                1.65    0.00 393341093/2642039093     mulmod [4]
+                0.00    0.01      18/14018       fermat_primitive_root [14]
+                1.74    4.22   14000/14018       invmod [8]
+[7]     13.4    1.74    4.23   14018         powmod [7]
+                4.23    0.00 917850575/4244812575     mulmod [4]
 -----------------------------------------------
-                0.00    2.38    6000/6000        fast_multiply [2]
-[8]      8.9    0.00    2.38    6000         invmod [8]
-                0.73    1.65    6000/6007        powmod [7]
+                0.00    5.96   14000/14000       fast_multiply [2]
+[8]     13.4    0.00    5.96   14000         invmod [8]
+                1.74    4.22   14000/14018       powmod [7]
 -----------------------------------------------
-                0.68    0.00 663552000/1990656000     fft1 [5]
-                1.35    0.00 1327104000/1990656000     fft2 [3]
-[9]      7.6    2.03    0.00 1990656000         submod [9]
+                1.25    0.00 978944000/2936832000     fft1 [5]
+                2.51    0.00 1957888000/2936832000     fft2 [3]
+[9]      8.4    3.76    0.00 2936832000         submod [9]
 -----------------------------------------------
-                0.86    0.00    9000/9000        main [1]
-[10]     3.2    0.86    0.00    9000         print_int_array [10]
+                1.47    0.00   21000/21000       main [1]
+[10]     3.3    1.47    0.00   21000         print_int_array [10]
 -----------------------------------------------
-                0.46    0.36    6000/6000        fast_multiply [2]
-[11]     3.1    0.46    0.36    6000         primitive_root_powers [11]
-                0.36    0.00 86010000/2642039093     mulmod [4]
+                0.70    0.60   14000/14000       fast_multiply [2]
+[11]     2.9    0.70    0.60   14000         primitive_root_powers [11]
+                0.60    0.00 130034000/4244812575     mulmod [4]
 -----------------------------------------------
-                0.06    0.41    6000/6000        main [1]
-[12]     1.8    0.06    0.41    6000         rand_poly [12]
-                0.41    0.00 86016000/86016000     rand_elt [13]
+                0.08    0.42   14000/14000       main [1]
+[12]     1.1    0.08    0.42   14000         rand_poly [12]
+                0.42    0.00 130048000/130048000     rand_elt [13]
 -----------------------------------------------
-                0.41    0.00 86016000/86016000     rand_poly [12]
-[13]     1.5    0.41    0.00 86016000         rand_elt [13]
+                0.42    0.00 130048000/130048000     rand_poly [12]
+[13]     0.9    0.42    0.00 130048000         rand_elt [13]
 -----------------------------------------------
-                0.00    0.00       3/3           main [1]
-[14]     0.0    0.00    0.00       3         fermat_primitive_root [14]
-                0.00    0.00       7/6007        powmod [7]
+                0.00    0.01       7/7           main [1]
+[14]     0.0    0.00    0.01       7         fermat_primitive_root [14]
+                0.00    0.01      18/14018       powmod [7]
 -----------------------------------------------
-                0.00    0.00    3000/9000        std::chrono::duration<long, std::ratio<1l, 1000000l> > std::chrono::__duration_cast_impl<std::chrono::duration<long, std::ratio<1l, 1000000l> >, std::ratio<1l, 1000l>, long, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [25]
-                0.00    0.00    6000/9000        std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [29]
-[21]     0.0    0.00    0.00    9000         std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const [21]
+                0.00    0.00    7000/21000       std::chrono::duration<long, std::ratio<1l, 1000000l> > std::chrono::__duration_cast_impl<std::chrono::duration<long, std::ratio<1l, 1000000l> >, std::ratio<1l, 1000l>, long, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [25]
+                0.00    0.00   14000/21000       std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [29]
+[21]     0.0    0.00    0.00   21000         std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const [21]
 -----------------------------------------------
-                0.00    0.00    6000/6000        std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [28]
-[22]     0.0    0.00    0.00    6000         std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::time_since_epoch() const [22]
+                0.00    0.00   14000/14000       std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [28]
+[22]     0.0    0.00    0.00   14000         std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::time_since_epoch() const [22]
 -----------------------------------------------
-                0.00    0.00    3000/3000        main [1]
-[23]     0.0    0.00    0.00    3000         std::chrono::duration<long, std::ratio<1l, 1000000l> >::count() const [23]
+                0.00    0.00    7000/7000        main [1]
+[23]     0.0    0.00    0.00    7000         std::chrono::duration<long, std::ratio<1l, 1000000l> >::count() const [23]
 -----------------------------------------------
-                0.00    0.00    3000/3000        main [1]
-[24]     0.0    0.00    0.00    3000         std::enable_if<std::chrono::__is_duration<std::chrono::duration<long, std::ratio<1l, 1000000l> > >::value, std::chrono::duration<long, std::ratio<1l, 1000000l> > >::type std::chrono::duration_cast<std::chrono::duration<long, std::ratio<1l, 1000000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [24]
-                0.00    0.00    3000/3000        std::chrono::duration<long, std::ratio<1l, 1000000l> > std::chrono::__duration_cast_impl<std::chrono::duration<long, std::ratio<1l, 1000000l> >, std::ratio<1l, 1000l>, long, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [25]
+                0.00    0.00    7000/7000        main [1]
+[24]     0.0    0.00    0.00    7000         std::enable_if<std::chrono::__is_duration<std::chrono::duration<long, std::ratio<1l, 1000000l> > >::value, std::chrono::duration<long, std::ratio<1l, 1000000l> > >::type std::chrono::duration_cast<std::chrono::duration<long, std::ratio<1l, 1000000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [24]
+                0.00    0.00    7000/7000        std::chrono::duration<long, std::ratio<1l, 1000000l> > std::chrono::__duration_cast_impl<std::chrono::duration<long, std::ratio<1l, 1000000l> >, std::ratio<1l, 1000l>, long, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [25]
 -----------------------------------------------
-                0.00    0.00    3000/3000        std::enable_if<std::chrono::__is_duration<std::chrono::duration<long, std::ratio<1l, 1000000l> > >::value, std::chrono::duration<long, std::ratio<1l, 1000000l> > >::type std::chrono::duration_cast<std::chrono::duration<long, std::ratio<1l, 1000000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [24]
-[25]     0.0    0.00    0.00    3000         std::chrono::duration<long, std::ratio<1l, 1000000l> > std::chrono::__duration_cast_impl<std::chrono::duration<long, std::ratio<1l, 1000000l> >, std::ratio<1l, 1000l>, long, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [25]
-                0.00    0.00    3000/9000        std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const [21]
-                0.00    0.00    3000/3000        std::chrono::duration<long, std::ratio<1l, 1000000l> >::duration<long, void>(long const&) [27]
+                0.00    0.00    7000/7000        std::enable_if<std::chrono::__is_duration<std::chrono::duration<long, std::ratio<1l, 1000000l> > >::value, std::chrono::duration<long, std::ratio<1l, 1000000l> > >::type std::chrono::duration_cast<std::chrono::duration<long, std::ratio<1l, 1000000l> >, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [24]
+[25]     0.0    0.00    0.00    7000         std::chrono::duration<long, std::ratio<1l, 1000000l> > std::chrono::__duration_cast_impl<std::chrono::duration<long, std::ratio<1l, 1000000l> >, std::ratio<1l, 1000l>, long, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [25]
+                0.00    0.00    7000/21000       std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const [21]
+                0.00    0.00    7000/7000        std::chrono::duration<long, std::ratio<1l, 1000000l> >::duration<long, void>(long const&) [27]
 -----------------------------------------------
-                0.00    0.00    3000/3000        std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [29]
-[26]     0.0    0.00    0.00    3000         std::chrono::duration<long, std::ratio<1l, 1000000000l> >::duration<long, void>(long const&) [26]
+                0.00    0.00    7000/7000        std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [29]
+[26]     0.0    0.00    0.00    7000         std::chrono::duration<long, std::ratio<1l, 1000000000l> >::duration<long, void>(long const&) [26]
 -----------------------------------------------
-                0.00    0.00    3000/3000        std::chrono::duration<long, std::ratio<1l, 1000000l> > std::chrono::__duration_cast_impl<std::chrono::duration<long, std::ratio<1l, 1000000l> >, std::ratio<1l, 1000l>, long, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [25]
-[27]     0.0    0.00    0.00    3000         std::chrono::duration<long, std::ratio<1l, 1000000l> >::duration<long, void>(long const&) [27]
+                0.00    0.00    7000/7000        std::chrono::duration<long, std::ratio<1l, 1000000l> > std::chrono::__duration_cast_impl<std::chrono::duration<long, std::ratio<1l, 1000000l> >, std::ratio<1l, 1000l>, long, true, false>::__cast<long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [25]
+[27]     0.0    0.00    0.00    7000         std::chrono::duration<long, std::ratio<1l, 1000000l> >::duration<long, void>(long const&) [27]
 -----------------------------------------------
-                0.00    0.00    3000/3000        main [1]
-[28]     0.0    0.00    0.00    3000         std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [28]
-                0.00    0.00    6000/6000        std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::time_since_epoch() const [22]
-                0.00    0.00    3000/3000        std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [29]
+                0.00    0.00    7000/7000        main [1]
+[28]     0.0    0.00    0.00    7000         std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [28]
+                0.00    0.00   14000/14000       std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::time_since_epoch() const [22]
+                0.00    0.00    7000/7000        std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [29]
 -----------------------------------------------
-                0.00    0.00    3000/3000        std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [28]
-[29]     0.0    0.00    0.00    3000         std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [29]
-                0.00    0.00    6000/9000        std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const [21]
-                0.00    0.00    3000/3000        std::chrono::duration<long, std::ratio<1l, 1000000000l> >::duration<long, void>(long const&) [26]
+                0.00    0.00    7000/7000        std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&, std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > > const&) [28]
+[29]     0.0    0.00    0.00    7000         std::common_type<std::chrono::duration<long, std::ratio<1l, 1000000000l> >, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >::type std::chrono::operator-<long, std::ratio<1l, 1000000000l>, long, std::ratio<1l, 1000000000l> >(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&, std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [29]
+                0.00    0.00   14000/21000       std::chrono::duration<long, std::ratio<1l, 1000000000l> >::count() const [21]
+                0.00    0.00    7000/7000        std::chrono::duration<long, std::ratio<1l, 1000000000l> >::duration<long, void>(long const&) [26]
 -----------------------------------------------
-                0.00    0.00    3000/3000        fast_multiply [2]
-[30]     0.0    0.00    0.00    3000         _mm_malloc [30]
+                0.00    0.00    7000/7000        fast_multiply [2]
+[30]     0.0    0.00    0.00    7000         _mm_malloc [30]
 -----------------------------------------------
                 0.00    0.00       3/3           main [1]
 [31]     0.0    0.00    0.00       3         _mm_malloc(unsigned long, unsigned long) [31]

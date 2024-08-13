@@ -4,7 +4,7 @@ list2maple := proc(ls :: list(nonnegint));
 end proc;
 
 
-verifyFile := proc(in_name :: string, out_name :: string, $)
+verifyFile := proc(in_name :: string, out_name :: string, every :: posint := 1, $)
     local infile,outfile,i,a,b,c,p,res;
     
     p := 2^16 + 1;
@@ -20,6 +20,9 @@ verifyFile := proc(in_name :: string, out_name :: string, $)
             if res <> c then
                 fprintf(outfile, "%a\n", [ seq( coeff(res, x, i), i=1..degree(res) ) ]);
             fi;
+
+            # skip a bunch of lines
+            for i to every*3 do readline(infile); od;
         od;
     finally
         fclose(infile);
