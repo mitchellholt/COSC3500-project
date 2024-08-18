@@ -1,7 +1,7 @@
 CC = gcc
 CPPC = g++
-CFLAGS = -Wall -Werror -std=gnu99 -pedantic
-CPPFLAGS = -Wall -Werror -pedantic -std=c++11
+CFLAGS = -Wall -Werror -std=gnu99 -pedantic -O3
+CPPFLAGS = -Wall -Werror -pedantic -std=c++11 -O3
 TEST = test
 RUN = run
 .PHONY: clean test run prof
@@ -16,8 +16,8 @@ prof: run
 run: run.o polynomial.o io.o fin_field.o fft.o
 	$(CPPC) $(CPPFLAGS) run.o polynomial.o io.o fin_field.o fft.o -o $@
 
-test: test.o fin_field.o
-	$(CC) $(CFLAGS) test.o fin_field.o -o $@
+test: test.o polynomial.o io.o fin_field.o fft.o
+	$(CC) $(CFLAGS) test.o polynomial.o io.o fin_field.o fft.o -o $@
 
 fft.o: fft.c fft.h
 	$(CC) $(CFLAGS) -c $<

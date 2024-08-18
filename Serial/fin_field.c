@@ -2,71 +2,99 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#ifndef FERMAT_PRIME
-// The ONLY prime we will be using, 2^(16) + 1
-const int prime = 65537;
-#define FERMAT_PRIME
-#endif
-
-inline int mulmod(int a, int b) {
-    // Since the prime is 2^16 + 1, we can compute q,r as solutions to the
-    // Euclidean division
-    //  a*b = q*2^16 + r
-    // Then a*b mod (2^16 + 1) = r - q
-    uint64_t t = ((uint64_t)a) * ((uint64_t)b); // a <= 2^16, b <= 2^16, so ab <= 2^32. Need a 64 bit integer
-    int q = (int)(t >> PRIME_LOG_2);
-    int r = (int)(t & 0xFFFF); // r is the least significant 16 bits
-    return submod(r, q);
-}
+#define LONG long long int // no need to expose this
 
 
-inline int addmod(int a, int b) {
-    int t = a - prime + b;
-    t += (t >> 31) & prime;
+inline int mulmod(int a, int b, int p) {
+    int t = (LONG) a * b % p;
     return t;
 }
 
 
-inline int submod(int a, int b) {
+inline int addmod(int a, int b, int p) {
+    int t = a - p + b;
+    t += (t >> 31) & p;
+    return t;
+}
+
+
+inline int submod(int a, int b, int p) {
     int t = a - b;
-    t += (t >> 31) & prime;
+    t += (t >> 31) & p;
     return t;
 }
 
 
-inline int powmod(int a, int n) {
+inline int powmod(int a, int n, int p) {
     int t = 1;
-    for (; n > 0; n--) t = mulmod(t, a);
+    for (; n > 0; n--) t = mulmod(t, a, p);
     return t;
 }
 
 
-inline int rand_elt(void) {
-    return rand() % prime;
+inline int rand_elt(int p) {
+    return rand() % p;
 }
 
 
 // Assume p is a Fermat prime and n is a power of 2.
 // Moreover, assume that p <= 2^16 + 1
-int fermat_primitive_root(int n) {
-    if (n >= prime) return 0;
+int fermat_primitive_root(int n, int p) {
+    if (n >= p) return 0;
 
-    // 2 is the ONLY prime divisor of prime - 1
-    int candidate = 0; // candidate (prime - 1)th root of unity
+    // 2 is the ONLY prime divisor of p - 1
+    int candidate = 0; // candidate (p - 1)th root of unity
     while (!candidate) { // expected to run through this loop 3 times
-        candidate = (rand() % (prime - 2)) + 2;
-        if (powmod(candidate, (prime - 1)/2) == 1) {
+        candidate = (rand() % (p - 2)) + 2;
+        if (powmod(candidate, (p - 1)/2, p) == 1) {
             candidate = 0;
             continue;
         }
     }
 
-    return powmod(candidate, (prime - 1)/n);
+    return powmod(candidate, (p - 1)/n, p);
 }
 
+// int primitive_root(int n, int p) {
+//     // Section 4.8 Of Algorithms for Computer Algebra (Geddes, Czapor, Labahn)
+//     if ((p - 1) % n) return 0; // Theorem 4.3
+// 
+//     // for now, set prime_divisors to be all primes less than p - 1
+//     int *prime_divisors = malloc(sizeof(int) * (p - 1));
+//     int num_prime_divisors = 0;
+//     for (int k = 2; k < p - 1; k++) {
+//         int j;
+//         for (j = 0; j < num_prime_divisors; j++) {
+//             if (k % prime_divisors[j] == 0) {
+//                 break;
+//             }
+//         }
+//         if (j == num_prime_divisors) {
+//             prime_divisors[num_prime_divisors++] = k;
+//         }
+//     }
+// 
+//     for (int i = 0; i < num_prime_divisors; i++) {
+//         if ((p - 1) % prime_divisors[i] != 0) prime_divisors[i] = 0;
+//     }
+// 
+//     int candidate = 0; // candidate (p - 1)th root of unity
+//     while (!candidate) { // expected to run through this loop 3 times
+//         candidate = (rand() % (p - 2)) + 2;
+//         for (int i = 0; i < num_prime_divisors; i++) {
+//             if (prime_divisors[i] && powmod(candidate, (p - 1)/prime_divisors[i], p) == 1) {
+//                 candidate = 0;
+//                 break;
+//             }
+//         }
+//     }
+// 
+//     free(prime_divisors);
+//     return powmod(candidate, (p - 1)/n, p);
+// }
 
 // PERF: wow this kind of sucks. We could use repeated squaring to speed up
 // powmod or implement XGCD
-inline int invmod(int n) {
-    return powmod(n, prime - 2);
+inline int invmod(int n, int p) {
+    return powmod(n, p - 2, p);
 }

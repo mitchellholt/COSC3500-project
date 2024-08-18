@@ -12,7 +12,7 @@
  * Store the result in a, but return false if no primitive n-th root of unity
  * could be found in Z/p.
  */
-void fast_multiply(int *const a, int *const b, int omega, int n);
+void fast_multiply(int *const a, int *const b, int omega, int n, int p);
 
 
 /*
@@ -21,7 +21,7 @@ void fast_multiply(int *const a, int *const b, int omega, int n);
  *
  * The caller must ensure that buffer is large enough to hold degree ints.
  */
-void rand_poly(int *buffer, int degree);
+void rand_poly(int *buffer, int degree, int p);
 
 #ifdef __cplusplus
     }

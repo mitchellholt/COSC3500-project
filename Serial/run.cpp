@@ -21,6 +21,8 @@
 #define MIN_ARGS           4
 
 #define ALIGN        64
+#define FERMAT_PRIME 65537
+#define MAX_POWER_2  16
 
 
 int main(int argc, char **argv) {
@@ -64,7 +66,7 @@ int main(int argc, char **argv) {
     for (int i = 0; i < num_sizes; i++) {
         int n = sizes[i];
         int n2 = n/2;
-        int omega = fermat_primitive_root(n);
+        int omega = fermat_primitive_root(n, FERMAT_PRIME);
         if (!omega) {
             fclose(out);
             free(a_buf);
@@ -83,8 +85,8 @@ int main(int argc, char **argv) {
 
         for (int j = 0; j < num_mults; j++) {
             // create random polys and print to file
-            rand_poly(a_buf, n2);
-            rand_poly(b_buf, n2);
+            rand_poly(a_buf, n2, FERMAT_PRIME);
+            rand_poly(b_buf, n2, FERMAT_PRIME);
             memset(a_buf + n2, 0, n2 * sizeof(int));
             memset(b_buf + n2, 0, n2 * sizeof(int));
 
@@ -95,7 +97,7 @@ int main(int argc, char **argv) {
 
             // multiply them and print result
             const auto startTime = std::chrono::high_resolution_clock::now();
-            fast_multiply(a_buf, b_buf, omega, n);
+            fast_multiply(a_buf, b_buf, omega, n, FERMAT_PRIME);
             const auto endTime = std::chrono::high_resolution_clock::now();
             totalTime += std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count();
 
