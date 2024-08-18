@@ -1,0 +1,51 @@
+\documentclass{beamer}
+
+\usefonttheme{serif}
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}[frame number]
+\usecolortheme[named=violet]{structure}
+
+\usepackage{geometry}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage{enumitem}
+\usepackage{pgf,tikz}
+\usepackage{listings}
+\usepackage{algpseudocode}
+\usepackage{svg}
+
+\lstset{
+    basicstyle=\ttfamily,
+    numberstyle=\tiny,
+    breaklines=true,
+}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\angles}[1]{\langle #1 \rangle}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\its}[1]{\textcolor{violet}{\emph{#1}}}
+
+\DeclareMathOperator{\rev}{\text{rev}}
+
+\newtheorem{proposition}{Proposition}
+
+\setbeamertemplate{theorems}[normal font]
+
+\title{COSC3500 Project}
+\subtitle{Milestone 1 (serial)}
+\author{Mitchell Holt}
+\date{September 2024}
+
+\begin{document}
+
+\titlegraphic{\includegraphics[width=.37\textwidth]{thinker.jpg}}
+
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\end{document}
