@@ -1,0 +1,7 @@
+1000 multiplications of size 1024. Total time 445725 us
+1000 multiplications of size 2048. Total time 968930 us
+1000 multiplications of size 4096. Total time 2090839 us
+1000 multiplications of size 8192. Total time 4481196 us
+1000 multiplications of size 16384. Total time 9564433 us
+1000 multiplications of size 32768. Total time 20271709 us
+1000 multiplications of size 65536. Total time 43019920 us

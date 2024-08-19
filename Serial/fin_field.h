@@ -5,6 +5,9 @@
 // Compute a*b mod p
 int mulmod(int a, int b, int p);
 
+// Compute a*b*c mod p
+int triple_mulmod(int a, int b, int c, int p);
+
 // Compute a + b mod p
 int addmod(int a, int b, int p);
 
