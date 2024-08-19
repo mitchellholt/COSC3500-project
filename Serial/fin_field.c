@@ -1,4 +1,5 @@
 #include "fin_field.h"
+#include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -25,10 +26,21 @@ inline int submod(int a, int b, int p) {
 }
 
 
-inline int powmod(int a, int n, int p) {
-    int t = 1;
-    for (; n > 0; n--) t = mulmod(t, a, p);
-    return t;
+// PERF: I reckon that this is almost always called with n = 2^k - 1, in which
+// case we get worst case performance.
+// TODO: Is there a way to improve this?
+int powmod(int a, int n, int p) {
+    if (n == 0) return 1;
+    if (n == 1) return a;
+
+    uint32_t log2n = 31 - __builtin_clz((uint32_t )n);
+    int t = a;
+    for (uint32_t i = 0; i < log2n; i++) {
+        // loop invariant: t = a^(2^i)
+        t = mulmod(t, t, p);
+    }
+    int tt = powmod(a, n - (int)(1 << log2n), p);
+    return mulmod(t, tt, p);
 }
 
 
