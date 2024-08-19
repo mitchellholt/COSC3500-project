@@ -38,8 +38,6 @@ void primitive_root_powers(int *buffer, int n, int omega, int p) {
 // Based on Michael Monagan's code
 // https://www.cecm.sfu.ca/~mmonagan/teaching/TopicsinCA21/FFTnoperm.pdf
 void fft1(int *const coefficients, int n, const int *const w, int p) {
-    if (n == 1) return; // base case
-
     if (n == 2) { // write this explicitly so that 4|n later
         // recursive FFT calls with n=1 do nothing
         int s = coefficients[0];
@@ -107,15 +105,68 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
 // Based on Michael Monagan's code 
 // https://www.cecm.sfu.ca/~mmonagan/teaching/TopicsinCA21/FFTnoperm.pdf
 void fft2(int *const coefficients, int n, const int *const w, int p) {
-    if (n == 1) return;
+    if (n == 2) {
+        int s = addmod(coefficients[0], coefficients[1], p);
+        int t = submod(coefficients[0], coefficients[1], p);
+        coefficients[0] = s;
+        coefficients[1] = mulmod(t, w[0], p);
+
+        return;
+    }
+
+    if (n == 4) {
+        int coeff0 = coefficients[0];
+        int coeff1 = coefficients[1];
+
+        int s1 = addmod(coeff0, coefficients[2], p);
+        int t1 = submod(coeff0, coefficients[2], p);
+        int s2 = addmod(coeff1, coefficients[3], p);
+        int t2 = submod(coeff1, coefficients[3], p);
+
+        coefficients[2] = mulmod(t1, w[0], p);
+        coefficients[3] = mulmod(t2, w[1], p);
+
+        coefficients[0] = s1;
+        coefficients[1] = s2;
+
+        fft2(coefficients, 2, w + 2, p);
+        fft2(coefficients + 2, 2, w + 2, p);
+
+        return;
+    }
+
     const int n2 = n/2;
     int s,t;
-    for (int i = 0; i < n2; i++) {
-        s = addmod(coefficients[i], coefficients[n2 + i], p);
-        t = submod(coefficients[i], coefficients[n2 + i], p);
-        coefficients[i] = s;
-        coefficients[n2 + i] = mulmod(t, w[i], p);
+
+    int bbuf[CACHE_LINE_INTS];
+    int wbuf[CACHE_LINE_INTS];
+    for (int i = 0; i < n2; i += CACHE_LINE_INTS) {
+        memcpy(bbuf, coefficients + n2 + i, sizeof(int) * CACHE_LINE_INTS);
+        memcpy(wbuf, w + i, sizeof(int) * CACHE_LINE_INTS);
+
+        s = addmod(coefficients[i    ], bbuf[0], p);
+        t = submod(coefficients[i    ], bbuf[0], p);
+        coefficients[i    ] = s;
+        bbuf[0] = mulmod(t, wbuf[0], p);
+
+        s = addmod(coefficients[i + 1], bbuf[1], p);
+        t = submod(coefficients[i + 1], bbuf[1], p);
+        coefficients[i + 1] = s;
+        bbuf[1] = mulmod(t, wbuf[1], p);
+
+        s = addmod(coefficients[i + 2], bbuf[2], p);
+        t = submod(coefficients[i + 2], bbuf[2], p);
+        coefficients[i + 2] = s;
+        bbuf[2] = mulmod(t, wbuf[2], p);
+
+        s = addmod(coefficients[i + 3], bbuf[3], p);
+        t = submod(coefficients[i + 3], bbuf[3], p);
+        coefficients[i + 3] = s;
+        bbuf[3] = mulmod(t, wbuf[3], p);
+
+        memcpy(coefficients + n2 + i, bbuf, sizeof(int) * CACHE_LINE_INTS);
     }
+
     fft2(coefficients, n2, w + n2, p);
     fft2(coefficients + n2, n2, w + n2, p);
     return;
