@@ -9,6 +9,14 @@
 #define ALIGN           64
 #define CACHE_LINE_INTS 4
 
+// int triple_mulmod(int a, int b, int c, int p);
+// template<int N> void fn() {
+//     POINTWISE_PRODUCT(N-1);
+//     fn<N-1>();
+// }
+// template<> void fn<0>() {
+// }
+
 
 void fast_multiply(int *const a, int *const b, int omega, int n, int p) {
     int *w = _mm_malloc(sizeof(int) * n, ALIGN);
@@ -17,7 +25,7 @@ void fast_multiply(int *const a, int *const b, int omega, int n, int p) {
     fft2(b, n, w, p);
 
     // TODO: this step is begging for SIMD
-    int b_block[4];
+    int b_block[CACHE_LINE_INTS];
     int n_inv = invmod(n, p);
     for (int i = 0; i < n; i += CACHE_LINE_INTS) { // NOTE: n is always divisible by 4
         memcpy(b_block, b + i, sizeof(int) * CACHE_LINE_INTS);

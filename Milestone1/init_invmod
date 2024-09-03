@@ -1,0 +1,10 @@
+inline int invmod(int n) {
+    // Fermat's little theorem
+    return powmod(n, prime - 2);
+}
+
+inline int powmod(int a, int n) {
+    int t = 1;
+    for (; n > 0; n--) t = mulmod(t, a);
+    return t;
+}

@@ -1,0 +1,8 @@
+inline int mulmod(int a, int b) {
+    // a*b = q*2^16 + r
+    uint64_t t = ((uint64_t)a) * ((uint64_t)b);
+    int q = (int)(t >> 16);
+    int r = (int)(t & 0xFFFF);
+    return submod(r, q);
+}
+

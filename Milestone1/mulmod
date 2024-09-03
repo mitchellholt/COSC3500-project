@@ -1,0 +1,4 @@
+inline int mulmod(int a, int b) {
+    int64_t t = ((int64_t)a * (int64_t)b) % prime;
+    return (int)t;
+}
