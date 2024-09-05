@@ -1,0 +1,6 @@
+for (int i = 0; i < n2; i++) {
+    s = coeffs[i];
+    t = mulmod(w[i], coeffs[n2 + i]);
+    coeffs[i] = addmod(s, t);
+    coeffs[n2 + i] = submod(s, t);
+}

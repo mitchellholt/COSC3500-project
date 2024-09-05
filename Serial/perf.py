@@ -78,4 +78,54 @@ def fast_inv():
     plt.show()
 
 
-fast_inv()
+def mult_unroll():
+    plt.subplot(1, 2, 1)
+    plt.plot(sizes, initial)
+    plt.plot(sizes, fast_inverse)
+    plt.plot(sizes, blocking)
+    plt.plot(sizes, blocking_unrolled)
+    plt.title("Absolute Performance")
+    plt.xlabel("log2 of the degree of the operand polynomials")
+    plt.ylabel("average time per mutliplication (milliseconds)")
+    plt.legend(["initial", "fast inverse algorithm", "blocking", "blocking unrolled"])
+
+    plt.subplot(1, 2, 2)
+    plt.plot(sizes, relativeTo(initial, initial))
+    plt.plot(sizes, relativeTo(fast_inverse, initial))
+    plt.plot(sizes, relativeTo(blocking, initial))
+    plt.plot(sizes, relativeTo(blocking_unrolled, initial))
+    plt.title("Relative Performance")
+    plt.xlabel("log2 of the degree of the operand polynomials")
+    plt.ylabel("Time taken (relative to initial implementation)")
+    plt.legend(["initial", "fast inverse algorithm", "blocking", "blocking unrolled"])
+
+    plt.show()
+
+
+def fft_blocking():
+    plt.subplot(1, 2, 1)
+    plt.plot(sizes, initial)
+    plt.plot(sizes, fast_inverse)
+    plt.plot(sizes, blocking)
+    plt.plot(sizes, blocking_unrolled)
+    plt.plot(sizes, fft_unroll)
+    plt.title("Absolute Performance")
+    plt.xlabel("log2 of the degree of the operand polynomials")
+    plt.ylabel("average time per mutliplication (milliseconds)")
+    plt.legend(["initial", "fast inverse algorithm", "blocking", "blocking unrolled", "fft blocking"])
+
+    plt.subplot(1, 2, 2)
+    plt.plot(sizes, relativeTo(initial, initial))
+    plt.plot(sizes, relativeTo(fast_inverse, initial))
+    plt.plot(sizes, relativeTo(blocking, initial))
+    plt.plot(sizes, relativeTo(blocking_unrolled, initial))
+    plt.plot(sizes, relativeTo(fft_unroll, initial))
+    plt.title("Relative Performance")
+    plt.xlabel("log2 of the degree of the operand polynomials")
+    plt.ylabel("Time taken (relative to initial implementation)")
+    plt.legend(["initial", "fast inverse algorithm", "blocking", "blocking unrolled", "fft blocking"])
+
+    plt.show()
+
+
+fft_blocking()

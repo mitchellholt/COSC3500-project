@@ -255,6 +255,68 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Cache Locality for Pointwise Multiplication}
+
+    \begin{enumerate}[label=(\roman*)]
+        \item Initial code:
+            \lstinputlisting[language=C]{no_blocking}
+            \pause \smallbreak
+        \item Optimised loop (using stack array \texttt{bbuf}) \pause:
+            \lstinputlisting[language=C]{blocking}
+            \pause \smallbreak
+        \item There are $64\text{bytes}/8\text{bytes} = 16$ ints in a cache
+            line, but \texttt{BLOCK\_INTS=4} is the sweet spot for perfomance
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Results}
+    
+    Ran 1000 examples for each degree. Report average timings.
+
+    \begin{figure}
+        \includegraphics[width=\textwidth]{fastmult.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Precomputing $\omega$ Powers Array}
+
+    Need to compute (following \cite{monagan}):
+    \begin{equation*}
+        W = \big[
+            \underbrace{\omega^0, \omega^1, \cdots, \omega^{n/2 - 1}}_{n/2 \text{ elems}},
+            \underbrace{\omega^0, \omega^2, \cdots, \omega^{n/2 - 2}}_{n/4},
+            \underbrace{\cdots}_{n/8,\dots,2},
+            \underbrace{\omega^0}_{1},
+            0
+        \big]
+    \end{equation*}
+    
+    \pause \vfill
+
+    \begin{enumerate}[label=(\roman*)]
+        \item Initial implementation does $n/2$ field multiplications,
+            but has poor cache locality for $W$. \pause \smallbreak
+        \item Tried an implementation that moves linearly along $W$ and does $n$ 
+            field multiplications. \pause This is slower.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Loop Unrolling and Cache Locality in FFT}
+
+    \begin{enumerate}[label=(\roman*)]
+        \item Initial loop code:
+            \lstinputlisting[language=C]{fft_loop_old}
+            \pause \smallbreak
+        \item Optimised loop (using stack arrays \texttt{bbuf} and
+            \texttt{wbuf}): \pause
+            \lstinputlisting[language=C]{fft_loop_new}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
     \frametitle{References}
 
     \bibliographystyle{alpha}

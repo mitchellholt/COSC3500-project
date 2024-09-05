@@ -1,0 +1,3 @@
+for (int i = 0; i < n; i++) {
+    a[i] = mulmod(n_inv, mulmod(a[i], b[i]));
+}

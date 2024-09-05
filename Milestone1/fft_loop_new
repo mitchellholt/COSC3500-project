@@ -1,0 +1,11 @@
+for (int i = 0; i < n2; i += CACHE_LINE_INTS) {
+    memcpy(bbuf, coeffs+n2+i, CACHE_LINE_BYTES);
+    memcpy(wbuf, w+i, CACHE_LINE_BYTES);
+    for (int j = 0; j < CACHE_LINE_INTS; j++) {
+        s = coeffs[i+j];
+        t = mulmod(wbuf[j], bbuf[j], p);
+        coeffs[i+j] = addmod(s, t, p);
+        bbuf[j] = submod(s, t, p);
+    }
+    memcpy(coeffs+n2+i, bbuf, CACHE_LINE_BYTES);
+}
