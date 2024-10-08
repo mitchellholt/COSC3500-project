@@ -25,6 +25,7 @@
 #define MAX_POWER_2  16
 
 
+// Example usage: ./run 10 out 10 11 (runs 10 examples of sizes 2^10 and 2^10)
 int main(int argc, char **argv) {
     int num_mults;
 
