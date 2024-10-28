@@ -29,3 +29,6 @@ verifyFile := proc(in_name :: string, out_name :: string, skip :: posint := 0, $
         fclose(outfile);
     end try;
 end proc;
+
+
+verifyFile("out", "actual");
