@@ -1,14 +1,14 @@
 CC = gcc
 CPPC = g++
-CFLAGS = -Wall -Werror -std=gnu99 -pedantic
-CPPFLAGS = -Wall -Werror -pedantic -std=c++11
+CFLAGS = -Wall -Werror -std=gnu99 -pedantic -mavx -mavx2
+CPPFLAGS = -Wall -Werror -pedantic -std=c++11 -mavx -mavx2
 .PHONY: clean test run prof build
 .DEFAULT_GOAL := run
 
 all: run
 
-prof: CFLAGS += -g -pg -O1
-prof: CPPFLAGS += -g -pg -O1
+prof: CFLAGS += -pg
+prof: CPPFLAGS += -pg
 prof: run
 
 run: CFLAGS += -O3

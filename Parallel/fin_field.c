@@ -1,12 +1,40 @@
 #include "fin_field.h"
+
 #include <stdint.h>
 #include <stdlib.h>
-#include <immintrin.h>
+#include <xmmintrin.h>
+#include <emmintrin.h>
+#include <smmintrin.h>
 
 
 inline int mulmod(int a, int b, int p) {
     int64_t t = ((int64_t)a * (int64_t)b) % p;
     return (int)t;
+}
+
+
+// Input is packed 32-bit integers
+inline __m128i vec_mulmod(__m128i x, __m128i y, int p) {
+    // mask to get the 16 least significant bits
+    __m128i mask = _mm_set1_epi64x(0xFFFF);
+    // get the high (odd) values from the vectors
+    __m128i high_x = _mm_shuffle_epi32(x, _MM_SHUFFLE(2, 3, 0, 1));
+    __m128i high_y = _mm_shuffle_epi32(y, _MM_SHUFFLE(2, 3, 0, 1));
+    // Compute the product in Z; ouput is 64 bit unsigned integers
+    __m128i high_prod = _mm_mul_epu32(high_x, high_y);
+    __m128i low_prod = _mm_mul_epu32(x, y);
+    // Compute quotients and remainders
+    __m128i high_quo = _mm_srli_epi64(high_prod, 16);
+    __m128i low_quo = _mm_srli_epi64(low_prod, 16);
+    __m128i high_rem = _mm_and_si128(high_prod, mask);
+    __m128i low_rem = _mm_and_si128(low_prod, mask);
+    // Pack into 32 bit integers
+    high_quo = _mm_shuffle_epi32(high_quo, _MM_SHUFFLE(2, 3, 0, 1));
+    high_rem = _mm_shuffle_epi32(high_rem, _MM_SHUFFLE(2, 3, 0, 1));
+    __m128i quo = _mm_blend_epi32(high_quo, low_quo, 5); // 5 = 0b0101
+    __m128i rem = _mm_blend_epi32(high_rem, low_rem, 5); // 5 = 0b0101
+    // Finally, do the subtraction!
+    return vec_submod(rem, quo, p);
 }
 
 
@@ -23,10 +51,32 @@ inline int addmod(int a, int b, int p) {
 }
 
 
+// algorithm due to van der Hoeven and Lecerf (https://arxiv.org/pdf/1407.3383)
+// PERF: see what happens if we up this bad boy to 256-bit vectors.
+// May not be faster bc memory throughput (cringe)
+inline __m128i vec_addmod(__m128i x, __m128i y, int p) {
+    const __m128i p_vec = _mm_set1_epi32(p);
+    __m128i a = _mm_sub_epi32(p_vec, y);
+    __m128i b = _mm_cmpeq_epi32(_mm_max_epu32(x, a), x);
+    __m128i c = _mm_andnot_si128(b, p_vec);
+    return _mm_add_epi32(_mm_sub_epi32(x, a), c);
+}
+
+
 inline int submod(int a, int b, int p) {
     int t = a - b;
     t += (t >> 31) & p;
     return t;
+}
+
+
+// I wrote this myself
+inline __m128i vec_submod(__m128i x, __m128i y, int p) {
+    const __m128i p_vec = _mm_set1_epi32(p);
+    __m128i a = _mm_sub_epi32(x, y);
+    __m128i b = _mm_cmpeq_epi32(_mm_max_epu32(x, a), x); // overflow <==> this is 0
+    __m128i c = _mm_andnot_si128(b, p_vec);
+    return _mm_add_epi32(a, c);
 }
 
 

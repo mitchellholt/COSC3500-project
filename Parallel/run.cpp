@@ -14,7 +14,7 @@
 #define BAD_FILE_ERR 2
 #define FRICK        3 // something real bad happened
 
-#define USAGE_STRING "Usage: run [-o filename] <num_multiplications_per_size> {powers}\n"
+#define USAGE_STRING "Usage: run <num_multiplications_per_size> [-o filename] {powers}\n"
 #define NUM_MULTS_INDEX    1
 #define OUT_INDEX          2
 #define MIN_ARGS           3

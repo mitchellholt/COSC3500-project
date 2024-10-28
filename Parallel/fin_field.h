@@ -10,11 +10,20 @@ int mulmod(int a, int b, int p);
 // Compute a*b*c mod p
 int triple_mulmod(int a, int b, int c, int p);
 
+// Compute the product of the packed 32-bit integer vectros x,y mod p.
+// Require p = 2^16 + 1
+__m128i vec_mulmod(__m128i x, __m128i y, int p);
+
 // Compute a + b mod p
 int addmod(int a, int b, int p);
 
+// Pointwise addition (mod p) of 128 bit packed vectors of integers
+__m128i vec_addmod(__m128i x, __m128i y, int p);
+
 // Compute a - b mod p
 int submod(int a, int b, int p);
+
+__m128i vec_submod(__m128i x, __m128i y, int p);
 
 // compute a^n mod p
 int powmod(int a, int n, int p);

@@ -26,4 +26,4 @@ hostname
 #"bind-to none" (for whatever reason, by default mpiexec will lock to a single core (i.e. single-threaded), bind-to none means the mpi process is free to use whatever cores it wants)
 
 # time mpiexec -n 1 -map-by node -bind-to none
-gprof ./run 1000 10 11 12 13 14 15 16
+./run 1000 10 11 12 13 14 15 16
