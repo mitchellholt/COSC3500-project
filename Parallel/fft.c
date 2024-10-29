@@ -64,11 +64,11 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
         return;
     }
 
-    const int n2 = n/2;
+    const int vec_n2 = n/(2*CACHE_LINE_INTS);
+    const int n2 = CACHE_LINE_INTS*vec_n2;
     fft1(coefficients, n2, w + n2, p);
     fft1(coefficients + n2, n2, w + n2, p);
 
-    const int vec_n2 = n2/CACHE_LINE_INTS;
     __m128i *coeffs_vec = (__m128i*)coefficients;
     __m128i *w_vec = (__m128i*)w;
 
@@ -78,7 +78,7 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
         __m128i s = coeffs_vec[i];
 
         coeffs_vec[i] = vec_addmod(s, t, p);
-        coeffs_vec[vec_n2 + i] = vec_submod(s, t, p);;
+        coeffs_vec[vec_n2 + i] = vec_submod(s, t, p);
     }
 
     return;
@@ -118,38 +118,21 @@ void fft2(int *const coefficients, int n, const int *const w, int p) {
         return;
     }
 
-    const int n2 = n/2;
-    int s,t;
+    // NOTE: coefficients and w should always be aligned along a 4*4=16 byte
+    // boundary
+    const int vec_n2 = n/(2*CACHE_LINE_INTS);
+    __m128i *coeff_vec = (__m128i*)coefficients;
+    __m128i *w_vec = (__m128i*)w;
 
-    int bbuf[CACHE_LINE_INTS];
-    int wbuf[CACHE_LINE_INTS];
-    for (int i = 0; i < n2; i += CACHE_LINE_INTS) {
-        memcpy(bbuf, coefficients + n2 + i, sizeof(int) * CACHE_LINE_INTS);
-        memcpy(wbuf, w + i, sizeof(int) * CACHE_LINE_INTS);
+    for (int i = 0; i < vec_n2; i++) {
+        __m128i b = coeff_vec[vec_n2 + i];
+        __m128i t = vec_submod(coeff_vec[i], b, p);
 
-        s = addmod(coefficients[i    ], bbuf[0], p);
-        t = submod(coefficients[i    ], bbuf[0], p);
-        coefficients[i    ] = s;
-        bbuf[0] = mulmod(t, wbuf[0], p);
-
-        s = addmod(coefficients[i + 1], bbuf[1], p);
-        t = submod(coefficients[i + 1], bbuf[1], p);
-        coefficients[i + 1] = s;
-        bbuf[1] = mulmod(t, wbuf[1], p);
-
-        s = addmod(coefficients[i + 2], bbuf[2], p);
-        t = submod(coefficients[i + 2], bbuf[2], p);
-        coefficients[i + 2] = s;
-        bbuf[2] = mulmod(t, wbuf[2], p);
-
-        s = addmod(coefficients[i + 3], bbuf[3], p);
-        t = submod(coefficients[i + 3], bbuf[3], p);
-        coefficients[i + 3] = s;
-        bbuf[3] = mulmod(t, wbuf[3], p);
-
-        memcpy(coefficients + n2 + i, bbuf, sizeof(int) * CACHE_LINE_INTS);
+        coeff_vec[i] = vec_addmod(coeff_vec[i], b, p);
+        coeff_vec[vec_n2 + i] = vec_mulmod(t, w_vec[i], p);
     }
 
+    const int n2 = CACHE_LINE_INTS*vec_n2;
     fft2(coefficients, n2, w + n2, p);
     fft2(coefficients + n2, n2, w + n2, p);
     return;
