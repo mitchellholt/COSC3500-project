@@ -10,6 +10,8 @@ int mulmod(int a, int b, int p);
 // Compute a*b*c mod p
 int triple_mulmod(int a, int b, int c, int p);
 
+// __m128i vec_triple_mulmod(__m128i x, __m128i y, __m128i z, int p);
+
 // Compute the product of the packed 32-bit integer vectros x,y mod p.
 // Require p = 2^16 + 1
 __m128i vec_mulmod(__m128i x, __m128i y, int p);

@@ -5,6 +5,7 @@
 #include <xmmintrin.h>
 #include <emmintrin.h>
 #include <smmintrin.h>
+#include <immintrin.h>
 
 
 inline int mulmod(int a, int b, int p) {
@@ -41,6 +42,38 @@ inline __m128i vec_mulmod(__m128i x, __m128i y, int p) {
 inline int triple_mulmod(int a, int b, int c, int p) {
     int64_t t = ((int64_t)a * (int64_t)b * (int64_t)c) % p;
     return (int)t;
+}
+
+
+inline __m128i vec_triple_mulmod(__m128i x, __m128i y, __m128i z, int p) {
+    __m128i zero = _mm_set1_epi64x(0);
+    // mask to get the 16 least significant bits
+    __m128i mask = _mm_set1_epi64x(0xFFFF);
+
+    // get the high (odd) values from the vectors
+    __m128i high_x = _mm_shuffle_epi32(x, _MM_SHUFFLE(2, 3, 0, 1));
+    __m128i high_y = _mm_shuffle_epi32(y, _MM_SHUFFLE(2, 3, 0, 1));
+    __m128i high_z = _mm_shuffle_epi32(z, _MM_SHUFFLE(2, 3, 0, 1));
+    // Compute the product in Z; ouput is 64 bit unsigned integers
+    __m128i high_prod = _mm_mul_epu32(high_x, high_y);
+    __m128i low_prod = _mm_mul_epu32(x, y);
+    __m128i z_uppers = _mm_blend_epi32(high_z, zero, 0xA); // 0b1010
+    __m128i z_lowers = _mm_blend_epi32(z, zero, 0xA); // 0b1010
+    high_prod = _mm_mullo_epi64(high_prod, z_uppers); // there won't be any overflow (but we still have to eat the cost)
+    low_prod = _mm_mullo_epi64(low_prod, z_lowers);
+
+    // Compute quotients and remainders
+    __m128i high_quo = _mm_srli_epi64(high_prod, 16);
+    __m128i low_quo = _mm_srli_epi64(low_prod, 16);
+    __m128i high_rem = _mm_and_si128(high_prod, mask);
+    __m128i low_rem = _mm_and_si128(low_prod, mask);
+    // Pack into 32 bit integers
+    high_quo = _mm_shuffle_epi32(high_quo, _MM_SHUFFLE(2, 3, 0, 1));
+    high_rem = _mm_shuffle_epi32(high_rem, _MM_SHUFFLE(2, 3, 0, 1));
+    __m128i quo = _mm_blend_epi32(high_quo, low_quo, 0x5); // 0b0101
+    __m128i rem = _mm_blend_epi32(high_rem, low_rem, 0x5); // 0b0101
+    // Finally, do the subtraction!
+    return vec_submod(rem, quo, p);
 }
 
 

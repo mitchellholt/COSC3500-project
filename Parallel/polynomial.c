@@ -9,14 +9,6 @@
 #define ALIGN           64
 #define CACHE_LINE_INTS 4
 
-// int triple_mulmod(int a, int b, int c, int p);
-// template<int N> void fn() {
-//     POINTWISE_PRODUCT(N-1);
-//     fn<N-1>();
-// }
-// template<> void fn<0>() {
-// }
-
 
 void fast_multiply(int *const a, int *const b, int omega, int n, int p) {
     int *w = _mm_malloc(sizeof(int) * n, ALIGN);
@@ -24,19 +16,17 @@ void fast_multiply(int *const a, int *const b, int omega, int n, int p) {
     fft2(a, n, w, p);
     fft2(b, n, w, p);
 
-    // TODO: this step is begging for SIMD
-    int b_block[CACHE_LINE_INTS];
-    int n_inv = invmod(n, p);
-    for (int i = 0; i < n; i += CACHE_LINE_INTS) { // NOTE: n is always divisible by 8
-        memcpy(b_block, b + i, sizeof(int) * CACHE_LINE_INTS);
-        a[i    ] = triple_mulmod(n_inv, a[i    ], b_block[0], p);
-        a[i + 1] = triple_mulmod(n_inv, a[i + 1], b_block[1], p);
-        a[i + 2] = triple_mulmod(n_inv, a[i + 2], b_block[2], p);
-        a[i + 3] = triple_mulmod(n_inv, a[i + 3], b_block[3], p);
+    const int vec_n = n/CACHE_LINE_INTS;
+    __m128i *a_vec = (__m128i*)a;
+    __m128i *b_vec = (__m128i*)b;
+    __m128i inv = _mm_set1_epi32(invmod(n, p));
+
+    for (int i = 0; i < vec_n; i++) { // NOTE: n is always divisible by 8
+        __m128i b_block = b_vec[i];
+        a_vec[i] = vec_mulmod(vec_mulmod(a_vec[i], inv, p), b_block, p);
     }
 
     omega = invmod(omega, p);
-    // PERF: surely there is an efficient way to do this WITHOUT needing to create a new array?
     primitive_root_powers(w, n, omega, p);
     fft1(a, n, w, p);
 
