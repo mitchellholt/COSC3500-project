@@ -1,7 +1,7 @@
 list2maple := proc(ls :: list(nonnegint));
     local i;
     return add( seq( ls[i] * x^(i - 1), i = 1 .. nops(ls) ) );
-end proc;
+end proc:
 
 
 verifyFile := proc(in_name :: string, out_name :: string, skip :: posint := 0, $)
@@ -18,7 +18,7 @@ verifyFile := proc(in_name :: string, out_name :: string, skip :: posint := 0, $
             c := list2maple(parse(readline(infile)));
             res := Expand(a*b) mod p;
             if res <> c then
-                fprintf(outfile, "%a\n", [ seq( coeff(res, x, i), i=1..degree(res) ) ]);
+                fprintf(outfile, "\n\n%a\n", [ seq( coeff(res, x, i), i=0..degree(res) ) ]);
             fi;
 
             # skip a bunch of lines
@@ -28,7 +28,7 @@ verifyFile := proc(in_name :: string, out_name :: string, skip :: posint := 0, $
         fclose(infile);
         fclose(outfile);
     end try;
-end proc;
+end proc:
 
 
-verifyFile("out", "actual");
+verifyFile("out", "actual"):
