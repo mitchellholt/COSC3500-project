@@ -36,7 +36,6 @@ void primitive_root_powers(int *buffer, int n, int omega, int p) {
 }
 
 
-// coeffs = [ c0, c1, c2, c3 ]; w = [ w0, w1, w0, w1 ]
 static inline __m128i fft1_base_case(__m128i coeffs, __m128i w, int p) {
     // compute s,t vectors
     __m128i t = _mm_shuffle_epi32(coeffs, _MM_SHUFFLE(3, 2, 3, 2));
@@ -58,9 +57,9 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
     __m128i *w_vec = (__m128i*)w;
 
     if (n == 4) { // write this explicitly so that 4|n later
-        __m128i coeffs = _mm_shuffle_epi32(*coeffs_vec, _MM_SHUFFLE(3, 1, 2, 0));
         __m128i w_sparse = _mm_shuffle_epi32(*w_vec, _MM_SHUFFLE(2, 0, 2, 0));
         __m128i w_lower = _mm_shuffle_epi32(*w_vec, _MM_SHUFFLE(1, 0, 1, 0));
+        __m128i coeffs = _mm_shuffle_epi32(*coeffs_vec, _MM_SHUFFLE(3, 1, 2, 0));
 
         coeffs = _mm_shuffle_epi32(
                 fft1_base_case(coeffs, w_sparse, p),
@@ -87,37 +86,54 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
 }
 
 
+static inline __m128i fft2_base_case(__m128i coeffs, __m128i w, int p) {
+    __m128i ops = _mm_shuffle_epi32(coeffs, _MM_SHUFFLE(1, 0, 1, 0));
+    __m128i opa = _mm_shuffle_epi32(coeffs, _MM_SHUFFLE(3, 2, 3, 2));
+    // int s1 = addmod(coeffs[0], coeffs[2], p);
+    // int s2 = addmod(coeffs[1], coeffs[3], p);
+    // int t1 = submod(coeffs[0], coeffs[2], p);
+    // int t2 = submod(coeffs[1], coeffs[3], p);
+    __m128i t = vec_submod(coeffs, ops, p);
+    __m128i s = vec_addmod(coeffs, opa, p);
+
+    // coeffs[0] = s1;
+    // coeffs[1] = s2;
+    // coeffs[2] = mulmod(t1, w[0], p);
+    // coeffs[3] = mulmod(t2, w[1], p);
+    t = vec_mulmod(t, w, p);
+    return _mm_blend_epi32(s, t, 0xC);
+}
+
+
 // Based on Michael Monagan's code 
 // https://www.cecm.sfu.ca/~mmonagan/teaching/TopicsinCA21/FFTnoperm.pdf
 void fft2(int *const coefficients, int n, const int *const w, int p) {
     __m128i *coeff_vec = (__m128i*)coefficients;
     __m128i *w_vec = (__m128i*)w;
 
-    if (n == 2) {
-        int s = addmod(coefficients[0], coefficients[1], p);
-        int t = submod(coefficients[0], coefficients[1], p);
-        coefficients[0] = s;
-        coefficients[1] = mulmod(t, w[0], p);
+    if (n == 4) { // BASE CASE - n = 2, n = 1 have been manually inlined.
+        __m128i w_lower = _mm_shuffle_epi32(*w_vec, _MM_SHUFFLE(1, 0, 1, 0));
+        *coeff_vec = fft2_base_case(*coeff_vec, w_lower, p);
+        // int s1 = addmod(coefficients[0], coefficients[2], p);
+        // int s2 = addmod(coefficients[1], coefficients[3], p);
+        // int t1 = submod(coefficients[0], coefficients[2], p);
+        // int t2 = submod(coefficients[1], coefficients[3], p);
+        // coefficients[0] = s1;
+        // coefficients[1] = s2;
+        // coefficients[2] = mulmod(t1, w[0], p);
+        // coefficients[3] = mulmod(t2, w[1], p);
 
-        return;
-    }
+        // DO NOT REARRANGE ACROSS THIS LINE
 
-    if (n == 4) {
-        int coeff0 = coefficients[0];
-        int coeff1 = coefficients[1];
+        int s1 = addmod(coefficients[0], coefficients[1], p);
+        int s2 = addmod(coefficients[2], coefficients[3], p);
+        int t1 = submod(coefficients[0], coefficients[1], p);
+        int t2 = submod(coefficients[2], coefficients[3], p);
 
-        int s1 = addmod(coeff0, coefficients[2], p);
-        int s2 = addmod(coeff1, coefficients[3], p);
-        int t1 = submod(coeff0, coefficients[2], p);
-        int t2 = submod(coeff1, coefficients[3], p);
-
-        coefficients[2] = mulmod(t1, w[0], p);
-        coefficients[3] = mulmod(t2, w[1], p);
         coefficients[0] = s1;
-        coefficients[1] = s2;
-
-        fft2(coefficients, 2, w + 2, p);
-        fft2(coefficients + 2, 2, w + 2, p);
+        coefficients[2] = s2;
+        coefficients[1] = mulmod(t1, w[2], p);
+        coefficients[3] = mulmod(t2, w[2], p);
 
         return;
     }
