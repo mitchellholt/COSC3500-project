@@ -38,18 +38,12 @@ void primitive_root_powers(int *buffer, int n, int omega, int p) {
 
 // coeffs = [ c0, c1, c2, c3 ]; w = [ w0, w1, w0, w1 ]
 static inline __m128i fft1_base_case(__m128i coeffs, __m128i w, int p) {
-    // s1 = coefficients[0];
-    // s2 = coefficients[1];
-    // t1 = mulmod(w[0], coefficients[2], p);
-    // t2 = mulmod(w[1], coefficients[3], p);
+    // compute s,t vectors
     __m128i t = _mm_shuffle_epi32(coeffs, _MM_SHUFFLE(3, 2, 3, 2));
     __m128i s = _mm_shuffle_epi32(coeffs, _MM_SHUFFLE(1, 0, 1, 0));
     t = vec_mulmod(t, w, p);
 
-    // coefficients[0] = addmod(s1, t1, p);
-    // coefficients[1] = addmod(s2, t2, p);
-    // coefficients[2] = submod(s1, t1, p);
-    // coefficients[3] = submod(s2, t2, p);
+    // store the result
     __m128i adds = vec_addmod(s, t, p);
     __m128i subs = vec_submod(s, t, p);
     return _mm_blend_epi32(adds, subs, 0xC); // 0b0011
@@ -67,24 +61,11 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
         __m128i w_sparse = _mm_shuffle_epi32(*w_vec, _MM_SHUFFLE(2, 0, 2, 0));
         __m128i w_lower = _mm_shuffle_epi32(*w_vec, _MM_SHUFFLE(1, 0, 1, 0));
         __m128i coeffs = _mm_shuffle_epi32(*coeffs_vec, _MM_SHUFFLE(3, 1, 2, 0));
-        coeffs = fft1_base_case(coeffs, w_sparse, p);
 
-        // int s1 = coefficients[0];
-        // int s2 = coefficients[2];
-        // int t1 = mulmod(w[0], coefficients[1], p);
-        // int t2 = mulmod(w[2], coefficients[3], p);
-
-        // coefficients[0] = addmod(s1, t1, p);
-        // coefficients[2] = addmod(s2, t2, p);
-        // coefficients[1] = submod(s1, t1, p);
-        // coefficients[3] = submod(s2, t2, p);
-
-        // DON'T REARRANGE ACROSS HERE
-
-        *coeffs_vec = fft1_base_case(
-                _mm_shuffle_epi32(coeffs, _MM_SHUFFLE(3, 1, 2, 0)),
-                w_lower,
-                p);
+        coeffs = _mm_shuffle_epi32(
+                fft1_base_case(coeffs, w_sparse, p),
+                _MM_SHUFFLE(3, 1, 2, 0));
+        *coeffs_vec = fft1_base_case(coeffs, w_lower, p);
         return;
     }
 
