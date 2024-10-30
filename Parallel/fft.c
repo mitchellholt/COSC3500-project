@@ -58,9 +58,9 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
     __m128i *w_vec = (__m128i*)w;
 
     if (n == 4) { // write this explicitly so that 4|n later
+        __m128i coeffs = _mm_shuffle_epi32(*coeffs_vec, _MM_SHUFFLE(3, 1, 2, 0));
         __m128i w_sparse = _mm_shuffle_epi32(*w_vec, _MM_SHUFFLE(2, 0, 2, 0));
         __m128i w_lower = _mm_shuffle_epi32(*w_vec, _MM_SHUFFLE(1, 0, 1, 0));
-        __m128i coeffs = _mm_shuffle_epi32(*coeffs_vec, _MM_SHUFFLE(3, 1, 2, 0));
 
         coeffs = _mm_shuffle_epi32(
                 fft1_base_case(coeffs, w_sparse, p),
@@ -90,6 +90,9 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
 // Based on Michael Monagan's code 
 // https://www.cecm.sfu.ca/~mmonagan/teaching/TopicsinCA21/FFTnoperm.pdf
 void fft2(int *const coefficients, int n, const int *const w, int p) {
+    __m128i *coeff_vec = (__m128i*)coefficients;
+    __m128i *w_vec = (__m128i*)w;
+
     if (n == 2) {
         int s = addmod(coefficients[0], coefficients[1], p);
         int t = submod(coefficients[0], coefficients[1], p);
@@ -104,13 +107,12 @@ void fft2(int *const coefficients, int n, const int *const w, int p) {
         int coeff1 = coefficients[1];
 
         int s1 = addmod(coeff0, coefficients[2], p);
-        int t1 = submod(coeff0, coefficients[2], p);
         int s2 = addmod(coeff1, coefficients[3], p);
+        int t1 = submod(coeff0, coefficients[2], p);
         int t2 = submod(coeff1, coefficients[3], p);
 
         coefficients[2] = mulmod(t1, w[0], p);
         coefficients[3] = mulmod(t2, w[1], p);
-
         coefficients[0] = s1;
         coefficients[1] = s2;
 
@@ -123,9 +125,6 @@ void fft2(int *const coefficients, int n, const int *const w, int p) {
     // NOTE: coefficients and w should always be aligned along a 4*4=16 byte
     // boundary
     const int vec_n2 = n/(2*CACHE_LINE_INTS);
-    __m128i *coeff_vec = (__m128i*)coefficients;
-    __m128i *w_vec = (__m128i*)w;
-
     for (int i = 0; i < vec_n2; i++) {
         __m128i b = coeff_vec[vec_n2 + i];
         __m128i t = vec_submod(coeff_vec[i], b, p);
