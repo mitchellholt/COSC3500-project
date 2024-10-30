@@ -38,23 +38,25 @@ void primitive_root_powers(int *buffer, int n, int omega, int p) {
 // Based on Michael Monagan's code
 // https://www.cecm.sfu.ca/~mmonagan/teaching/TopicsinCA21/FFTnoperm.pdf
 void fft1(int *const coefficients, int n, const int *const w, int p) {
-    if (n == 2) { // write this explicitly so that 4|n later
-        // recursive FFT calls with n=1 do nothing
-        int s = coefficients[0];
-        int t = mulmod(w[0], coefficients[1], p);
-        coefficients[0] = addmod(s, t, p);
-        coefficients[1] = submod(s, t, p);
-        return;
-    }
-
-    if (n == 4) {
-        fft1(coefficients, 2, w + 2, p);
-        fft1(coefficients + 2, 2, w + 2, p);
+    if (n == 4) { // write this explicitly so that 4|n later
+        // TODO: can we vectorise this for a speedup?
 
         int s1 = coefficients[0];
-        int s2 = coefficients[1];
-        int t1 = mulmod(w[0], coefficients[2], p);
-        int t2 = mulmod(w[1], coefficients[3], p);
+        int s2 = coefficients[2];
+        int t1 = mulmod(w[0], coefficients[1], p);
+        int t2 = mulmod(w[2], coefficients[3], p);
+
+        coefficients[0] = addmod(s1, t1, p);
+        coefficients[2] = addmod(s2, t2, p);
+        coefficients[1] = submod(s1, t1, p);
+        coefficients[3] = submod(s2, t2, p);
+
+        // DON'T REARRAGNE ACROSS HERE
+
+        s1 = coefficients[0];
+        s2 = coefficients[1];
+        t1 = mulmod(w[0], coefficients[2], p);
+        t2 = mulmod(w[1], coefficients[3], p);
 
         coefficients[0] = addmod(s1, t1, p);
         coefficients[1] = addmod(s2, t2, p);
