@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <mm_malloc.h>
 #include <string.h>
+#include <xmmintrin.h>
 #include "fft.h"
 #include "fin_field.h"
 
@@ -35,11 +36,36 @@ void primitive_root_powers(int *buffer, int n, int omega, int p) {
 }
 
 
+// coeffs = [ c0, c1, c2, c3 ]; w = [ w0, w1, w0, w1 ]
+static inline __m128i fft1_base_case(__m128i coeffs, __m128i w, int p) {
+    // s1 = coefficients[0];
+    // s2 = coefficients[1];
+    // t1 = mulmod(w[0], coefficients[2], p);
+    // t2 = mulmod(w[1], coefficients[3], p);
+    __m128i t = _mm_shuffle_epi32(coeffs, _MM_SHUFFLE(3, 2, 3, 2));
+    __m128i s = _mm_shuffle_epi32(coeffs, _MM_SHUFFLE(1, 0, 1, 0));
+    t = vec_mulmod(t, w, p);
+
+    // coefficients[0] = addmod(s1, t1, p);
+    // coefficients[1] = addmod(s2, t2, p);
+    // coefficients[2] = submod(s1, t1, p);
+    // coefficients[3] = submod(s2, t2, p);
+    __m128i adds = vec_addmod(s, t, p);
+    __m128i subs = vec_submod(s, t, p);
+    return _mm_blend_epi32(adds, subs, 0xC); // 0b0011
+}
+
+
 // Based on Michael Monagan's code
 // https://www.cecm.sfu.ca/~mmonagan/teaching/TopicsinCA21/FFTnoperm.pdf
+// WARN: Only works when n >= 4
 void fft1(int *const coefficients, int n, const int *const w, int p) {
+    __m128i *coeffs_vec = (__m128i*)coefficients;
+    __m128i *w_vec = (__m128i*)w;
+
     if (n == 4) { // write this explicitly so that 4|n later
-        // TODO: can we vectorise this for a speedup?
+        //__m128i w_sparse = _mm_shuffle_epi32(*w_vec, _MM_SHUFFLE(3, 1, 3, 1));
+        __m128i w_lower = _mm_shuffle_epi32(*w_vec, _MM_SHUFFLE(1, 0, 1, 0));
 
         int s1 = coefficients[0];
         int s2 = coefficients[2];
@@ -51,17 +77,9 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
         coefficients[1] = submod(s1, t1, p);
         coefficients[3] = submod(s2, t2, p);
 
-        // DON'T REARRAGNE ACROSS HERE
+        // DON'T REARRANGE ACROSS HERE
 
-        s1 = coefficients[0];
-        s2 = coefficients[1];
-        t1 = mulmod(w[0], coefficients[2], p);
-        t2 = mulmod(w[1], coefficients[3], p);
-
-        coefficients[0] = addmod(s1, t1, p);
-        coefficients[1] = addmod(s2, t2, p);
-        coefficients[2] = submod(s1, t1, p);
-        coefficients[3] = submod(s2, t2, p);
+        *coeffs_vec = fft1_base_case(*coeffs_vec, w_lower, p);
 
         return;
     }
@@ -70,9 +88,6 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
     const int n2 = CACHE_LINE_INTS*vec_n2;
     fft1(coefficients, n2, w + n2, p);
     fft1(coefficients + n2, n2, w + n2, p);
-
-    __m128i *coeffs_vec = (__m128i*)coefficients;
-    __m128i *w_vec = (__m128i*)w;
 
     for (int i = 0; i < vec_n2; i++) {
         __m128i b = coeffs_vec[vec_n2 + i];
