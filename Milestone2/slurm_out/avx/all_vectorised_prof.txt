@@ -1,0 +1,243 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  us/call  us/call  name    
+ 23.49      1.69     1.69 701696000     0.00     0.00  vec_mulmod
+ 15.57      2.82     1.12 636672000     0.00     0.00  vec_addmod
+ 15.43      3.93     1.11 636672000     0.00     0.00  vec_submod
+ 12.93      4.86     0.93    14000    66.57   282.54  fft2
+  8.27      5.46     0.60     7000    85.18   301.16  fft1
+  7.85      6.02     0.57 130048000     0.00     0.00  rand_elt
+  6.53      6.49     0.47 520178000     0.00     0.00  mulmod
+  2.92      6.70     0.21 390144000     0.00     0.00  submod
+  2.78      6.90     0.20 390144000     0.00     0.00  addmod
+  2.02      7.05     0.15    14000    10.38    18.79  primitive_root_powers
+  0.83      7.11     0.06    14000     4.29     4.29  print_int_array
+  0.56      7.15     0.04                             degree
+  0.56      7.19     0.04                             triple_mulmod
+  0.42      7.22     0.03                             rand_poly
+  0.07      7.23     0.01                             powmod
+  0.00      7.23     0.00    14000     0.00     4.29  invmod
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 0.14% of 7.23 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     90.6    0.00    6.54                 fast_multiply [1]
+                0.93    3.02   14000/14000       fft2 [2]
+                0.60    1.51    7000/7000        fft1 [3]
+                0.15    0.12   14000/14000       primitive_root_powers [10]
+                0.16    0.00 65024000/701696000     vec_mulmod [4]
+                0.00    0.06   14000/14000       invmod [13]
+-----------------------------------------------
+                             130034000             fft2 [2]
+                0.93    3.02   14000/14000       fast_multiply [1]
+[2]     54.7    0.93    3.02   14000+130034000 fft2 [2]
+                1.02    0.00 424448000/701696000     vec_mulmod [4]
+                0.75    0.00 424448000/636672000     vec_addmod [5]
+                0.74    0.00 424448000/636672000     vec_submod [6]
+                0.24    0.00 260096000/520178000     mulmod [9]
+                0.14    0.00 260096000/390144000     submod [11]
+                0.13    0.00 260096000/390144000     addmod [12]
+                             130034000             fft2 [2]
+-----------------------------------------------
+                             130034000             fft1 [3]
+                0.60    1.51    7000/7000        fast_multiply [1]
+[3]     29.2    0.60    1.51    7000+130034000 fft1 [3]
+                0.51    0.00 212224000/701696000     vec_mulmod [4]
+                0.37    0.00 212224000/636672000     vec_addmod [5]
+                0.37    0.00 212224000/636672000     vec_submod [6]
+                0.12    0.00 130048000/520178000     mulmod [9]
+                0.07    0.00 130048000/390144000     submod [11]
+                0.07    0.00 130048000/390144000     addmod [12]
+                             130034000             fft1 [3]
+-----------------------------------------------
+                0.16    0.00 65024000/701696000     fast_multiply [1]
+                0.51    0.00 212224000/701696000     fft1 [3]
+                1.02    0.00 424448000/701696000     fft2 [2]
+[4]     23.4    1.69    0.00 701696000         vec_mulmod [4]
+-----------------------------------------------
+                0.37    0.00 212224000/636672000     fft1 [3]
+                0.75    0.00 424448000/636672000     fft2 [2]
+[5]     15.5    1.12    0.00 636672000         vec_addmod [5]
+-----------------------------------------------
+                0.37    0.00 212224000/636672000     fft1 [3]
+                0.74    0.00 424448000/636672000     fft2 [2]
+[6]     15.4    1.11    0.00 636672000         vec_submod [6]
+-----------------------------------------------
+                                                 <spontaneous>
+[7]      8.3    0.03    0.57                 rand_poly [7]
+                0.57    0.00 130048000/130048000     rand_elt [8]
+-----------------------------------------------
+                0.57    0.00 130048000/130048000     rand_poly [7]
+[8]      7.8    0.57    0.00 130048000         rand_elt [8]
+-----------------------------------------------
+                0.12    0.00 130034000/520178000     primitive_root_powers [10]
+                0.12    0.00 130048000/520178000     fft1 [3]
+                0.24    0.00 260096000/520178000     fft2 [2]
+[9]      6.5    0.47    0.00 520178000         mulmod [9]
+-----------------------------------------------
+                0.15    0.12   14000/14000       fast_multiply [1]
+[10]     3.6    0.15    0.12   14000         primitive_root_powers [10]
+                0.12    0.00 130034000/520178000     mulmod [9]
+-----------------------------------------------
+                0.07    0.00 130048000/390144000     fft1 [3]
+                0.14    0.00 260096000/390144000     fft2 [2]
+[11]     2.9    0.21    0.00 390144000         submod [11]
+-----------------------------------------------
+                0.07    0.00 130048000/390144000     fft1 [3]
+                0.13    0.00 260096000/390144000     fft2 [2]
+[12]     2.8    0.20    0.00 390144000         addmod [12]
+-----------------------------------------------
+                0.00    0.06   14000/14000       fast_multiply [1]
+[13]     0.8    0.00    0.06   14000         invmod [13]
+                0.06    0.00   14000/14000       print_int_array [14]
+-----------------------------------------------
+                              112000             print_int_array [14]
+                0.06    0.00   14000/14000       invmod [13]
+[14]     0.8    0.06    0.00   14000+112000  print_int_array [14]
+                              112000             print_int_array [14]
+-----------------------------------------------
+                                                 <spontaneous>
+[15]     0.6    0.04    0.00                 degree [15]
+-----------------------------------------------
+                                                 <spontaneous>
+[16]     0.6    0.04    0.00                 triple_mulmod [16]
+-----------------------------------------------
+                                                 <spontaneous>
+[17]     0.1    0.01    0.00                 powmod [17]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [12] addmod                 [17] powmod                 [16] triple_mulmod
+  [15] degree                 [10] primitive_root_powers   [5] vec_addmod
+   [3] fft1                   [14] print_int_array         [4] vec_mulmod
+   [2] fft2                    [8] rand_elt                [6] vec_submod
+  [13] invmod                  [7] rand_poly
+   [9] mulmod                 [11] submod

@@ -1,0 +1,19 @@
+rm -f *.o test run
+g++ -Wall -Werror -pedantic -std=c++11 -mavx -mavx2 -fopenmp -O3 -c run.cpp
+gcc -Wall -Werror -std=gnu99 -pedantic -mavx -mavx2 -fopenmp -O3 -c polynomial.c
+gcc -Wall -Werror -std=gnu99 -pedantic -mavx -mavx2 -fopenmp -O3 -c io.c
+gcc -Wall -Werror -std=gnu99 -pedantic -mavx -mavx2 -fopenmp -O3 -c fin_field.c
+gcc -Wall -Werror -std=gnu99 -pedantic -mavx -mavx2 -fopenmp -O3 -c fft.c
+g++ -Wall -Werror -pedantic -std=c++11 -mavx -mavx2 -fopenmp -O3 run.o polynomial.o io.o fin_field.o fft.o -o run
+a100-0
+1000 multiplications of size  1024. Total time 63462 us
+1000 multiplications of size  2048. Total time 69230 us
+1000 multiplications of size  4096. Total time 135780 us
+1000 multiplications of size  8192. Total time 277442 us
+1000 multiplications of size 16384. Total time 568802 us
+1000 multiplications of size 32768. Total time 1159664 us
+1000 multiplications of size 65536. Total time 2389415 us
+
+real	0m6.392s
+user	0m50.190s
+sys	0m0.042s

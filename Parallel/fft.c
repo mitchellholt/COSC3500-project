@@ -2,10 +2,14 @@
 #include <mm_malloc.h>
 #include <string.h>
 #include <xmmintrin.h>
+#include <omp.h>
+
 #include "fft.h"
 #include "fin_field.h"
 
-#define CACHE_LINE_INTS 4
+#define CACHE_LINE_INTS    4
+#define PARALLEL_MAX_DEPTH 2
+#define PARALLEL_MIN_SIZE  16
 
 
 // Note that this is fast IF we can fit all of w into cache.
@@ -52,7 +56,7 @@ static inline __m128i fft1_base_case(__m128i coeffs, __m128i w, int p) {
 // Based on Michael Monagan's code
 // https://www.cecm.sfu.ca/~mmonagan/teaching/TopicsinCA21/FFTnoperm.pdf
 // WARN: Only works when n >= 4
-void fft1(int *const coefficients, int n, const int *const w, int p) {
+void fft1(int *const coefficients, int n, const int *const w, int p, int depth) {
     __m128i *coeffs_vec = (__m128i*)coefficients;
     __m128i *w_vec = (__m128i*)w;
 
@@ -70,8 +74,8 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
 
     const int vec_n2 = n/(2*CACHE_LINE_INTS);
     const int n2 = CACHE_LINE_INTS*vec_n2;
-    fft1(coefficients, n2, w + n2, p);
-    fft1(coefficients + n2, n2, w + n2, p);
+    fft1(coefficients,      n2, w + n2, p, depth + 1);
+    fft1(coefficients + n2, n2, w + n2, p, depth + 1);
 
     for (int i = 0; i < vec_n2; i++) {
         __m128i b = coeffs_vec[vec_n2 + i];
@@ -81,7 +85,6 @@ void fft1(int *const coefficients, int n, const int *const w, int p) {
         coeffs_vec[i] = vec_addmod(s, t, p);
         coeffs_vec[vec_n2 + i] = vec_submod(s, t, p);
     }
-
     return;
 }
 
@@ -101,7 +104,7 @@ static inline __m128i fft2_base_case(__m128i coeffs, __m128i w, int p) {
 
 // Based on Michael Monagan's code 
 // https://www.cecm.sfu.ca/~mmonagan/teaching/TopicsinCA21/FFTnoperm.pdf
-void fft2(int *const coefficients, int n, const int *const w, int p) {
+void fft2(int *const coefficients, int n, const int *const w, int p, int depth) {
     __m128i *coeff_vec = (__m128i*)coefficients;
     __m128i *w_vec = (__m128i*)w;
 
@@ -124,6 +127,7 @@ void fft2(int *const coefficients, int n, const int *const w, int p) {
     // NOTE: coefficients and w should always be aligned along a 4*4=16 byte
     // boundary
     const int vec_n2 = n/(2*CACHE_LINE_INTS);
+
     for (int i = 0; i < vec_n2; i++) {
         __m128i b = coeff_vec[vec_n2 + i];
         __m128i t = vec_submod(coeff_vec[i], b, p);
@@ -133,7 +137,19 @@ void fft2(int *const coefficients, int n, const int *const w, int p) {
     }
 
     const int n2 = CACHE_LINE_INTS*vec_n2;
-    fft2(coefficients, n2, w + n2, p);
-    fft2(coefficients + n2, n2, w + n2, p);
+
+    if (depth <= PARALLEL_MAX_DEPTH) {
+        #pragma omp parallel sections
+        {
+            #pragma omp section
+            { fft2(coefficients,      n2, w + n2, p, depth + 1); }
+            #pragma omp section
+            { fft2(coefficients + n2, n2, w + n2, p, depth + 1); }
+        }
+    } else {
+        fft2(coefficients,      n2, w + n2, p, depth + 1);
+        fft2(coefficients + n2, n2, w + n2, p, depth + 1);
+    }
+
     return;
 }

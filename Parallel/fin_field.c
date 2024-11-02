@@ -75,7 +75,7 @@ inline int submod(int a, int b, int p) {
 inline __m128i vec_submod(__m128i x, __m128i y, int p) {
     const __m128i p_vec = _mm_set1_epi32(p);
     __m128i a = _mm_sub_epi32(x, y);
-    __m128i b = _mm_cmpeq_epi32(_mm_max_epu32(x, a), x); // overflow <==> this is 0
+    __m128i b = _mm_cmpeq_epi32(_mm_max_epu32(x, a), x); // negative <==> this is 0
     __m128i c = _mm_andnot_si128(b, p_vec);
     return _mm_add_epi32(a, c);
 }

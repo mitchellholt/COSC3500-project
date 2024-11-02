@@ -1,7 +1,7 @@
 CC = gcc
 CPPC = g++
-CFLAGS = -Wall -Werror -std=gnu99 -pedantic -mavx -mavx2
-CPPFLAGS = -Wall -Werror -pedantic -std=c++11 -mavx -mavx2
+CFLAGS = -Wall -Werror -std=gnu99 -pedantic -mavx -mavx2 -fopenmp
+CPPFLAGS = -Wall -Werror -pedantic -std=c++11 -mavx -mavx2 -fopenmp
 .PHONY: clean test run prof build
 .DEFAULT_GOAL := run
 

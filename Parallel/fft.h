@@ -25,7 +25,7 @@ void primitive_root_powers(int *buffer, int n, int omega, int p);
  *
  * The result is stored in coefficients; no new memory is allocated.
  */
-void fft1(int *const coefficients, int n, const int *const w, int p);
+void fft1(int *const coefficients, int n, const int *const w, int p, int depth);
 
 
 /* In-place FFT Algorithm 2 (Gerhard and von zur Gathen section 8.2)
@@ -38,7 +38,7 @@ void fft1(int *const coefficients, int n, const int *const w, int p);
  *
  * The result is stored in coefficients; no new memory is allocated.
  */
-void fft2(int *const coefficients, int n, const int *const w, int p);
+void fft2(int *const coefficients, int n, const int *const w, int p, int depth);
 
 #ifdef __cplusplus
     }

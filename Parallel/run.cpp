@@ -1,3 +1,4 @@
+#include <omp.h>
 #include <stdint.h>
 #include <mm_malloc.h>
 #include <string.h>
@@ -6,6 +7,7 @@
 #include <string.h>
 #include <time.h>
 #include <chrono>
+
 #include "polynomial.h"
 #include "io.h"
 #include "fin_field.h"
@@ -20,6 +22,7 @@
 #define MIN_ARGS           3
 
 #define ALIGN        64
+#define NUM_THREADS  8 // number of virtual threads to use
 #define FERMAT_PRIME 65537
 #define MAX_POWER_2  16
 
@@ -68,6 +71,7 @@ int main(int argc, char **argv) {
     int *b_buf = (int*)_mm_malloc(biggest * sizeof(int), ALIGN);
 
     srand(time(NULL));
+    omp_set_num_threads(NUM_THREADS);
 
     for (int i = 0; i < num_sizes; i++) {
         int n = sizes[i];
@@ -125,7 +129,7 @@ int main(int argc, char **argv) {
             }
         }
 
-        printf("%d multiplications of size %d. Total time %ld us\n",
+        printf("%d multiplications of size %5d. Total time %ld us\n",
                 num_mults, n, totalTime);
     }
 
